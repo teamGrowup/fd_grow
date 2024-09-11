@@ -39,8 +39,6 @@ export default function LoginScreen() {
               className="w-full h-[47px] rounded-full border-gray-300"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-[47px] rounded-full border-gray-300"
-
             />
           </div>
           
@@ -63,12 +61,6 @@ export default function LoginScreen() {
             type="button"
           >
             로그인
-          </Button>
-          <Button 
-            className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3"
-            onClick={handleSignupClient}
-            type="button"
-          >
           </Button>
           <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3">
             이메일로 회원가입
