@@ -1,13 +1,21 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 export default function LoginScreen() {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/home');
+  };
+
   return (
-    <div>
-      {/* <div className="w-full max-w-[393px] border border-blue-500 p-6 rounded-lg"> */}
+    <div className="px-3">
         <h2 className="text-2xl font-bold text-center my-8">로그인</h2>
         
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
             <Input 
@@ -28,7 +36,11 @@ export default function LoginScreen() {
             />
           </div>
           
-          <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2">
+          <Button 
+            className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2"
+            onClick={handleLogin}
+            type="button"
+          >
             로그인
           </Button>
           
@@ -57,7 +69,6 @@ export default function LoginScreen() {
         <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2">
           사업자 회원가입
         </Button>
-      {/* </div> */}
     </div>
   )
 }

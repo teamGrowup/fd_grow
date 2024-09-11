@@ -8,7 +8,7 @@ export default function Component() {
     <div>
       <header className="flex flex-col border-b bg-black">
         <div className="flex items-center justify-between p-4">
-          <h1 className="text-xl font-bold text-white">MUSINSA</h1>
+          <h1 className="text-xl font-bold text-white">Grow</h1>
           <div className="flex items-center space-x-4">
             <Bell className="w-6 h-6 text-white" />
             <ShoppingBag className="w-6 h-6 text-white" />
