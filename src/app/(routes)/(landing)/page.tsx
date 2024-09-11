@@ -3,12 +3,26 @@
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
+import { useState } from 'react';
 export default function LoginScreen() {
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = () => {
+    console.log('Email:', email);
+    console.log('Password:', password);
+    // Here you would typically send these credentials to your backend
     router.push('/home');
+  };
+
+  const handleSignupClient = () => {
+    router.push('/signup/client');
+  };
+
+  const handleSignupBusiness = () => {
+    router.push('/signup/business');
   };
 
   return (
@@ -23,6 +37,8 @@ export default function LoginScreen() {
               id="email" 
               placeholder="abcdefg@gmail.com" 
               className="w-full rounded-full border-gray-300"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           
@@ -33,6 +49,8 @@ export default function LoginScreen() {
               id="password" 
               placeholder="************" 
               className="w-full rounded-full border-gray-300"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           
@@ -44,7 +62,11 @@ export default function LoginScreen() {
             로그인
           </Button>
           
-          <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2">
+          <Button 
+            className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2"
+            onClick={handleSignupClient}
+            type="button"
+          >
             이메일로 회원가입
           </Button>
         </form>
@@ -66,7 +88,11 @@ export default function LoginScreen() {
           </Button>
         </div>
         
-        <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2">
+        <Button 
+          className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2"
+          onClick={handleSignupBusiness}
+          type="button"
+        >
           사업자 회원가입
         </Button>
     </div>
