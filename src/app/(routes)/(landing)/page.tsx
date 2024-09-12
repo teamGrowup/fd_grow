@@ -4,17 +4,26 @@ import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from 'react';
+import { useAuthApi } from '@/api/auth';
+import { useAuthStore } from '@/lib/store';
+
 export default function LoginScreen() {
   const router = useRouter();
+  const { login } = useAuthApi();
+  const { setAccessToken } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Here you would typically send these credentials to your backend
-    router.push('/home');
+  const handleLogin = async () => {
+    try {
+      const data = await login(email, password);
+      setAccessToken(data.data.accessToken);
+      router.push('/home');
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle login error (e.g., show error message to user)
+    }
   };
 
   const handleSignupClient = () => {
@@ -62,7 +71,11 @@ export default function LoginScreen() {
           >
             로그인
           </Button>
-          <Button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3">
+          <Button 
+            className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3"
+            onClick={handleSignupClient}
+            type="button"
+          >
             이메일로 회원가입
           </Button>
         </form>

@@ -1,11 +1,30 @@
+'use client'
+
 import { Bell, ShoppingBag, Search, Home, Clipboard, Heart, User, Instagram, Youtube, Twitter, Music } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useAuthStore } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 import Image from "next/image"
+import { useEffect } from "react"
 
 export default function Component() {
+
+  const accessToken = useAuthStore(state => state.accessToken);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!accessToken) {
+      router.push('/');
+      return;
+    }
+
+  }, [accessToken, router]);
+
+  if (!accessToken) return null;
+
   return (
     <div>
       <header className="flex flex-col border-b bg-black">
