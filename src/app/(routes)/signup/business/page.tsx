@@ -31,6 +31,7 @@ export default function BusinessRegistrationForm() {
   const [emailTimer, setEmailTimer] = useState(180);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [emailVerificationError, setEmailVerificationError] = useState("");
 
   const [businessNumber, setBusinessNumber] = useState("");
   const [representativeName, setRepresentativeName] = useState("");
@@ -46,6 +47,7 @@ export default function BusinessRegistrationForm() {
   const [phoneTimer, setPhoneTimer] = useState(180);
   const [phoneVerificationCode, setPhoneVerificationCode] = useState("");
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [phoneVerificationError, setPhoneVerificationError] = useState("");
 
   const [password, setPassword] = useState("");
   const [isLengthValid, setIsLengthValid] = useState(false);
@@ -98,21 +100,39 @@ export default function BusinessRegistrationForm() {
     setIsPhoneVerified(false);
   };
 
-  const handleEmailVerification = () => {
-    // Simulating verification check
+  const handleEmailVerification = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent form submission
     if (emailVerificationCode === "1234") {
       setIsEmailVerified(true);
       setShowEmailVerification(false);
+      setEmailVerificationError("");
+      // Set the email input to the verified email
+      setEmail(email);
+    } else {
+      setEmailVerificationError("잘못된 인증 코드입니다. 다시 확인해주세요.");
     }
   };
 
-  const handlePhoneVerification = () => {
-    // Simulating verification check
+  const handlePhoneVerification = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent form submission
     if (phoneVerificationCode === "5678") {
       setIsPhoneVerified(true);
       setShowPhoneVerification(false);
+      setPhoneVerificationError("");
+      // Keep the verified phone number in the input
+      setPhoneNumber(phoneNumber);
+    } else {
+      setPhoneTimer(180);
+      setPhoneVerificationError("잘못된 인증 코드입니다. 다시 확인해주세요.");
     }
   };
+  
+  // const handlePhoneReverification = () => {
+  //   setShowPhoneVerification(true);
+  //   setPhoneTimer(180);
+  //   setPhoneVerificationCode("");
+  //   setPhoneVerificationError("");
+  // };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -158,10 +178,15 @@ export default function BusinessRegistrationForm() {
     setIsDialogOpen(false);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle form submission logic here
+  };
+
   return (
     <div className="max-w-md p-6 bg-white">
       <h1 className="text-2xl font-bold mb-6 text-center">사업자 회원가입</h1>
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="email"
@@ -177,6 +202,7 @@ export default function BusinessRegistrationForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-grow"
+              disabled={isEmailVerified}
             />
             {isEmailVerified ? (
               <CheckCircle2 className="h-6 w-6 text-green-500" />
@@ -192,23 +218,28 @@ export default function BusinessRegistrationForm() {
           </div>
         </div>
         {showEmailVerification && (
-          <div className="flex space-x-2 items-center">
-            <Input
-              type="text"
-              placeholder="인증번호 입력"
-              value={emailVerificationCode}
-              onChange={(e) => setEmailVerificationCode(e.target.value)}
-              className="flex-grow"
-            />
-            <span className="text-sm text-gray-500">
-              {formatTime(emailTimer)}
-            </span>
-            <Button
-              onClick={handleEmailVerification}
-              className="whitespace-nowrap"
-            >
-              인증하기
-            </Button>
+          <div className="space-y-2">
+            <div className="flex space-x-2 items-center">
+              <Input
+                type="text"
+                placeholder="인증번호 입력"
+                value={emailVerificationCode}
+                onChange={(e) => setEmailVerificationCode(e.target.value)}
+                className="flex-grow"
+              />
+              <span className="text-sm text-gray-500">
+                {formatTime(emailTimer)}
+              </span>
+              <Button
+                onClick={handleEmailVerification}
+                className="whitespace-nowrap"
+              >
+                {emailVerificationError ? "재인증하기" : "인증하기"}
+              </Button>
+            </div>
+            {emailVerificationError && (
+              <p className="text-red-500 text-sm">{emailVerificationError}</p>
+            )}
           </div>
         )}
         <div>
@@ -406,6 +437,7 @@ export default function BusinessRegistrationForm() {
               className="flex-grow"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              disabled={isPhoneVerified}
             />
             {isPhoneVerified ? (
               <CheckCircle2 className="h-6 w-6 text-green-500" />
@@ -421,23 +453,28 @@ export default function BusinessRegistrationForm() {
           </div>
         </div>
         {showPhoneVerification && (
-          <div className="flex space-x-2 items-center">
-            <Input
-              type="text"
-              placeholder="인증번호 입력"
-              value={phoneVerificationCode}
-              onChange={(e) => setPhoneVerificationCode(e.target.value)}
-              className="flex-grow"
-            />
-            <span className="text-sm text-gray-500">
-              {formatTime(phoneTimer)}
-            </span>
-            <Button
-              onClick={handlePhoneVerification}
-              className="whitespace-nowrap"
-            >
-              인증하기
-            </Button>
+          <div className="space-y-2">
+            <div className="flex space-x-2 items-center">
+              <Input
+                type="text"
+                placeholder="인증번호 입력"
+                value={phoneVerificationCode}
+                onChange={(e) => setPhoneVerificationCode(e.target.value)}
+                className="flex-grow"
+              />
+              <span className="text-sm text-gray-500">
+                {formatTime(phoneTimer)}
+              </span>
+              <Button
+                onClick={handlePhoneVerification}
+                className="whitespace-nowrap"
+              >
+                {phoneVerificationError ? "재인증하기" : "인증하기"}
+              </Button>
+            </div>
+            {phoneVerificationError && (
+              <p className="text-red-500 text-sm">{phoneVerificationError}</p>
+            )}
           </div>
         )}
         <Button type="submit" className="w-full bg-black text-white">
