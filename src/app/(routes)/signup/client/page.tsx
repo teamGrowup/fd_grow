@@ -6,28 +6,13 @@ import { Input } from "@/components/ui/input";
 import { CheckCircle2 } from "lucide-react";
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-// Mock function to simulate Korean address API
-const searchKoreanAddress = async (query: string): Promise<string[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const mockAddresses = [
-    "서울특별시 강남구 테헤란로 152",
-    "서울특별시 서초구 서초대로 397",
-    "서울특별시 송파구 올림픽로 300",
-    "경기도 성남시 분당구 판교역로 166",
-    "부산광역시 해운대구 센텀중앙로 55",
-  ];
-  return mockAddresses.filter((address) => address.includes(query));
-};
+// import DaumPostcodeEmbed from 'react-daum-postcode';
+import { useDaumPostcodePopup } from "react-daum-postcode";
+import { Address } from "react-daum-postcode";
 
 export default function UserRegistrationForm() {
-
-
   const [email, setEmail] = useState("");
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailTimer, setEmailTimer] = useState(180);
@@ -37,12 +22,10 @@ export default function UserRegistrationForm() {
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [address, setAddress] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<string[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  
+
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showPhoneVerification, setShowPhoneVerification] = useState(false);
   const [phoneTimer, setPhoneTimer] = useState(180);
@@ -59,6 +42,23 @@ export default function UserRegistrationForm() {
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
+
+  // const { searchKakaoAddress } = useAuthApi();
+  const open = useDaumPostcodePopup();
+
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  const [isPhoneValid, setIsPhoneValid] = useState(true);
+
+  const [emailError, setEmailError] = useState("");
+
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
+  const [isAgreeSendEmail, setIsAgreeSendEmail] = useState(false);
+  const [isAgreeSendSms, setIsAgreeSendSms] = useState(false);
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const checkPasswordRequirements = (pwd: string) => {
     setIsLengthValid(pwd.length >= 8);
@@ -90,6 +90,11 @@ export default function UserRegistrationForm() {
 
   const handleSendVerificationEmail = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!isValidEmail(email)) {
+      setEmailError("올바른 이메일 형식이 아닙니다.");
+      return;
+    }
+    setEmailError("");
     setShowEmailVerification(true);
     setEmailTimer(180);
     setIsEmailVerified(false);
@@ -154,40 +159,134 @@ export default function UserRegistrationForm() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const handleAddressSearch = async () => {
-    setIsSearching(true);
-    try {
-      const results = await searchKoreanAddress(searchQuery);
-      setSearchResults(results);
-    } catch (error) {
-      console.error("Error searching for address:", error);
-      setSearchResults([]);
-    } finally {
-      setIsSearching(false);
-    }
-  };
+  // // Usage in your component
+  // const handleAddressSearch = async () => {
+  //   console.log("check searchQuery", searchQuery);
+  //   setIsSearching(true);
+  //   try {
+  //     const results = await searchKakaoAddress(searchQuery);
+  //     console.log("check results", results);
+  //     setSearchResults(results);
+  //   } catch (error) {
+  //     console.error("Error searching for address:", error);
+  //     setSearchResults([]);
+  //   } finally {
+  //     setIsSearching(false);
+  //   }
+  // };
 
-  const handleAddressSelect = (selectedAddress: string) => {
-    setAddress(selectedAddress);
-    setIsDialogOpen(false);
-  };
+  // const handleAddressSelect = (selectedAddress: string) => {
+  //   setAddress(selectedAddress);
+  //   setIsDialogOpen(false);
+  // };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here
+    
+    if (!isEmailVerified) {
+      alert("이메일 인증을 완료해주세요.");
+      return;
+    }
+    
+    if (!isPhoneVerified) {
+      alert("전화번호 인증을 완료해주세요.");
+      return;
+    }
+
+    const mandatoryFields = [
+      { value: email, name: "이메일" },
+      { value: password, name: "비밀번호" },
+      { value: confirmPassword, name: "비밀번호 확인" },
+      { value: name, name: "이름" },
+      { value: nickname, name: "닉네임" },
+      { value: phoneNumber, name: "전화번호" },
+      { value: birthday, name: "생년월일" },
+      { value: gender, name: "성별" },
+      { value: address, name: "주소" },
+      { value: postcode, name: "우편번호" },
+    ];
+
+    const emptyFields = mandatoryFields.filter(field => !field.value.trim());
+
+    if (emptyFields.length > 0) {
+      const emptyFieldNames = emptyFields.map(field => field.name).join(", ");
+      alert(`다음 필수 항목을 입력해주세요: ${emptyFieldNames}`);
+      return;
+    }
+
+    // Proceed with form submission
+    alert("Form submitted successfully");
   };
+
+  const handleComplete = (data: Address) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    setAddress(fullAddress);
+    setPostcode(data.zonecode);
+    setIsDialogOpen(false);
+  };
+
+  const handleClick = () => {
+    // Calculate the center position
+    const width = 500; // Set your desired width
+    const height = 600; // Set your desired height
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+
+    open({
+      onComplete: handleComplete,
+      width: width,
+      height: height,
+      left: left,
+      top: top,
+    });
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    const numbers = value.replace(/\D/g, "");
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    } else {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(
+        7,
+        11
+      )}`;
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    const formattedNumber = formatPhoneNumber(input);
+    setPhoneNumber(formattedNumber);
+    setIsPhoneValid(/^[0-9-]*$/.test(input));
+  };
+
+  const RequiredLabel = ({ text }: { text: string }) => (
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      {text} <span className="text-red-500">*</span>
+    </label>
+  );
 
   return (
     <div className="max-w-md p-6 bg-white">
       <h1 className="text-2xl font-bold mb-6 text-center">회원가입</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            이메일
-          </label>
+          <RequiredLabel text="이메일" />
           <div className="flex space-x-2 items-center">
             <Input
               id="email"
@@ -195,8 +294,9 @@ export default function UserRegistrationForm() {
               placeholder="abcdefg@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-grow"
+              className={`flex-grow ${emailError ? 'border-red-500' : ''}`}
               disabled={isEmailVerified}
+              required
             />
             {isEmailVerified ? (
               <CheckCircle2 className="h-6 w-6 text-green-500" />
@@ -210,39 +310,46 @@ export default function UserRegistrationForm() {
               </Button>
             )}
           </div>
-        </div>
-        {showEmailVerification && (
-          <div className="space-y-2">
-            <div className="flex space-x-2 items-center">
-              <Input
-                type="text"
-                placeholder="인증번호 입력"
-                value={emailVerificationCode}
-                onChange={(e) => setEmailVerificationCode(e.target.value)}
-                className="flex-grow"
-              />
-              <span className="text-sm text-gray-500">
-                {formatTime(emailTimer)}
-              </span>
-              <Button
-                onClick={handleEmailVerification}
-                className="whitespace-nowrap"
-              >
-                {emailVerificationError ? "재인증하기" : "인증하기"}
-              </Button>
+          {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
+          {showEmailVerification && !emailError && (
+            <div className="space-y-2 mt-2">
+              <div className="flex space-x-2 items-center">
+                <Input
+                  type="text"
+                  placeholder="인증번호 입력"
+                  value={emailVerificationCode}
+                  onChange={(e) => setEmailVerificationCode(e.target.value)}
+                  className="flex-grow"
+                />
+                <span className="text-sm text-gray-500">
+                  {formatTime(emailTimer)}
+                </span>
+                <Button
+                  onClick={handleEmailVerification}
+                  className="whitespace-nowrap"
+                >
+                  인증하기
+                </Button>
+              </div>
+              {emailVerificationError && (
+                <p className="text-red-500 text-xs">{emailVerificationError}</p>
+              )}
             </div>
-            {emailVerificationError && (
-              <p className="text-red-500 text-xs">{emailVerificationError}</p>
-            )}
-          </div>
-        )}
+          )}
+        </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            비밀번호
+          <label className="flex items-center text-sm">
+            <input
+              type="checkbox"
+              checked={isAgreeSendEmail}
+              onChange={(e) => setIsAgreeSendEmail(e.target.checked)}
+              className="mr-2 text-xs"
+            />
+            이메일 수신 동의
           </label>
+        </div>
+        <div>
+          <RequiredLabel text="비밀번호" />
           <Input
             id="password"
             type="password"
@@ -259,6 +366,7 @@ export default function UserRegistrationForm() {
                 ? "border-green-500"
                 : "border-gray-300"
             }`}
+            required
           />
           <div className="mt-2 space-y-1">
             <RequirementLabel met={isLengthValid} text="최소 8자 이상" />
@@ -272,12 +380,7 @@ export default function UserRegistrationForm() {
           </div>
         </div>
         <div>
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            비밀번호 확인
-          </label>
+          <RequiredLabel text="비밀번호 확인" />
           <Input
             id="confirmPassword"
             type="password"
@@ -289,6 +392,7 @@ export default function UserRegistrationForm() {
                 ? "border-green-500"
                 : "border-gray-300"
             }`}
+            required
           />
           {confirmPassword && (
             <p
@@ -303,42 +407,55 @@ export default function UserRegistrationForm() {
           )}
         </div>
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            이름
-          </label>
+          <RequiredLabel text="이름" />
           <Input
             id="name"
             type="text"
             placeholder="홍길동"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
         <div>
-          <label
-            htmlFor="nickname"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            닉네임
-          </label>
+          <RequiredLabel text="닉네임" />
           <Input
             id="nickname"
             type="text"
-            placeholder="돌리"
+            placeholder="닉네임"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
+            required
           />
         </div>
+        <div className="flex space-x-4">
+          <div className="flex-1">
+            <RequiredLabel text="생년월일" />
+            <Input
+              id="birthday"
+              type="date"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              required
+            />
+          </div>
+          <div className="flex-1">
+            <RequiredLabel text="성별" />
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="w-full p-2 border rounded text-sm"
+              required
+            >
+              <option value="">선택하세요</option>
+              <option value="MALE">남성</option>
+              <option value="FEMALE">여성</option>
+            </select>
+          </div>
+        </div>
         <div>
-          <label
-            htmlFor="address"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            주소
-          </label>
+        <RequiredLabel text="주소" />
           <div className="flex space-x-2 mb-2">
             <Input
               id="address"
@@ -347,87 +464,62 @@ export default function UserRegistrationForm() {
               className="flex-grow"
               value={address}
               readOnly
+              required
             />
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <Dialog open={isDialogOpen} onOpenChange={handleClick}>
               <DialogTrigger asChild>
-                <Button className="whitespace-nowrap">주소 검색</Button>
+                <Button className="whitespace-nowrap w-1/4">주소 검색</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] bg-white">
-                <DialogHeader>
-                  <DialogTitle>주소 검색</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Input
-                      id="searchAddress"
-                      placeholder="주소 검색"
-                      className="col-span-3"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <Button
-                      onClick={handleAddressSearch}
-                      disabled={isSearching}
-                    >
-                      {isSearching ? "검색 중..." : "검색"}
-                    </Button>
-                  </div>
-                  <div className="max-h-[200px] overflow-y-auto">
-                    {searchResults.map((result, index) => (
-                      <div
-                        key={index}
-                        className="p-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleAddressSelect(result)}
-                      >
-                        {result}
-                      </div>
-                    ))}
-                    {searchResults.length === 0 && !isSearching && (
-                      <div className="p-2 text-gray-500">
-                        검색 결과가 없습니다.
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </DialogContent>
             </Dialog>
           </div>
-          <Input
-            type="text"
-            placeholder="상세주소"
-            value={detailAddress}
-            onChange={(e) => setDetailAddress(e.target.value)}
-          />
+          <div className="flex space-x-2">
+            <Input
+              type="text"
+              placeholder="상세주소"
+              value={detailAddress}
+              onChange={(e) => setDetailAddress(e.target.value)}
+              className="flex-grow"
+            />
+            <Input
+              type="text"
+              placeholder="우편번호"
+              value={postcode}
+              readOnly
+              className="w-1/4"
+            />
+          </div>
         </div>
         <div>
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            전화번호
-          </label>
+          <RequiredLabel text="전화번호" />
           <div className="flex space-x-2 items-center">
             <Input
               id="phone"
               type="tel"
-              placeholder="010XXXXXXXX"
-              className="flex-grow"
+              placeholder="010-0000-0000"
+              className={`flex-grow ${!isPhoneValid ? "border-red-500" : ""}`}
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={handlePhoneChange}
+              maxLength={13}
               disabled={isPhoneVerified}
+              required
             />
             {isPhoneVerified ? (
               <CheckCircle2 className="h-6 w-6 text-green-500" />
             ) : (
               <Button
                 onClick={handleSendPhoneVerification}
-                disabled={!phoneNumber || showPhoneVerification}
+                disabled={
+                  !phoneNumber || showPhoneVerification || !isPhoneValid
+                }
                 className="whitespace-nowrap"
               >
                 전화번호 인증
               </Button>
             )}
           </div>
+          {!isPhoneValid && (
+            <p className="text-red-500 text-sm mt-1">숫자만 입력해주세요.</p>
+          )}
         </div>
         {showPhoneVerification && (
           <div className="space-y-2">
@@ -454,7 +546,18 @@ export default function UserRegistrationForm() {
             )}
           </div>
         )}
-        <Button type="submit" className="w-full bg-black text-white">
+        <div>
+          <label className="flex items-center text-sm">
+            <input
+              type="checkbox"
+              checked={isAgreeSendSms}
+              onChange={(e) => setIsAgreeSendSms(e.target.checked)}
+              className="mr-2 text-xs"
+            />
+            SMS 수신 동의
+          </label>
+        </div>
+        <Button type="submit" className="w-full bg-black text-white mt-6">
           회원가입
         </Button>
       </form>
