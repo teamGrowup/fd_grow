@@ -46,6 +46,11 @@ next-env.d.ts
 # Build outputs
 dist/
 build/
+**/dist
+**/build
+**/out
+**/coverage
+src/packages/ui/dist
 
 # Dependency directories
 node_modules/
