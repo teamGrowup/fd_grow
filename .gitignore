@@ -50,7 +50,6 @@ build/
 **/build
 **/out
 **/coverage
-src/packages/ui/dist
 
 # Dependency directories
 node_modules/
