@@ -12,6 +12,7 @@
 # next.js
 /.next/
 /out/
+**/.next
 
 # production
 /build
@@ -41,3 +42,29 @@ next-env.d.ts
 
 # turbo
 .turbo
+
+# Build outputs
+dist/
+build/
+
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
