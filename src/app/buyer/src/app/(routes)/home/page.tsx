@@ -4,7 +4,7 @@ import { Bell, ShoppingBag, Search, Home, Clipboard, Heart, User, Instagram, You
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/packages/ui/src/accordion"
 import Link from "next/link"
 import { Input, Button } from "@/packages/ui/src/index"
-import { useAuthStore } from '@/app/purchaser/src/lib/store';
+import { useAuthStore } from '@/app/buyer/src/lib/store';
 import { useRouter } from 'next/navigation';
 import Image from "next/image"
 import { useEffect } from "react"

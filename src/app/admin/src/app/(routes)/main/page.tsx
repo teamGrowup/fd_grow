@@ -1,11 +1,15 @@
 import React from "react";
 
 import { Button } from "@/packages/ui/src/index";
+import Image from "next/image";
+import Logo from "@/app/admin/src/assets/GrowMallLogo.png";
 
 const managerMainPage: React.FC = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <div className="bg-black py-12 relative w-full">
+        <Image src={Logo} alt="logo" className="absolute w-[540px] h-full top-0 left-0" />
+      </div>
       <div className="translate-y-28 py-3 flex flex-col gap-8 mt-1">
         <div className="flex justify-center">
           <Button className="w-4/5 bg-blue-600 py-8 rounded-full">
