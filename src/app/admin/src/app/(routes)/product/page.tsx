@@ -1,11 +1,19 @@
 import React from "react";
 
 import { Button } from "@/packages/ui/src/index";
+import Image from "next/image";
+import Logo from "@/app/admin/src/assets/GrowMallLogo.png";
 
 const ProductEnrollmentRequestPage: React.FC = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <div className="bg-black py-12 relative w-full">
+        <Image
+          src={Logo}
+          alt="logo"
+          className="absolute w-1/3 h-full top-0 left-0"
+        />
+      </div>
       <div className="grid grid-cols-2 place-items-center translate-y-12">
         <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
           <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
@@ -70,18 +78,10 @@ const ProductEnrollmentRequestPage: React.FC = () => {
       </div>
       <footer className="border-t border-gray-300 mt-6">
         <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
-            <li className="text-sm text-blue-400 font-bold">
-                전체 상품
-            </li>
-            <li className="text-sm text-gray-300">
-                허가 상품
-            </li>
-            <li className="text-sm text-gray-300">
-                허가 대기 상품
-            </li>
-            <li className="text-sm text-gray-300">
-                미허가 상품
-            </li>
+          <li className="text-sm text-blue-400 font-bold">전체 상품</li>
+          <li className="text-sm text-gray-300">허가 상품</li>
+          <li className="text-sm text-gray-300">허가 대기 상품</li>
+          <li className="text-sm text-gray-300">미허가 상품</li>
         </ul>
       </footer>
     </>

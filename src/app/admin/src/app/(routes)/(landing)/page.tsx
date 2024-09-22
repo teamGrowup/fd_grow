@@ -41,7 +41,7 @@ export default function ManagerLoginPage() {
             type="email"
             id="email"
             placeholder="abcdefg@gmail.com"
-            className="w-[380px] h-[47px] rounded-full border-gray-300 ml-3 mx-auto"
+            className="w-[380px] h-[47px] rounded-full border-black ml-3 mx-auto"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -58,14 +58,14 @@ export default function ManagerLoginPage() {
             type="password"
             id="password"
             placeholder="************"
-            className="w-[380px] h-[47px] rounded-full border-gray-300 ml-3 mx-auto"
+            className="w-[380px] h-[47px] rounded-full border-black ml-3 mx-auto"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
         <Button
-          className="w-[380px] bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3 block mx-auto"
+          className="w-[380px] bg-black text-white hover:bg-gray-700 rounded-full py-2 h-[47px] translate-y-3 block mx-auto"
           onClick={handleLogin}
           type="button"
         >
