@@ -2,7 +2,7 @@
 
 import { Button } from "@/packages/ui/src/index";
 import Image from "next/image";
-import Logo from "@/app/admin/src/assets/GrowMallLogo.png";
+import Logo from "@/app/admin/src/assets/smallLogo.png";
 import { ChartNoAxesCombined } from "lucide-react";
 import { PackageSearch } from "lucide-react";
 import { Store } from "lucide-react";

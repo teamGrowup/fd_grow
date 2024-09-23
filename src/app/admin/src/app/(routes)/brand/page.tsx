@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/packages/ui/src/index";
 import Image from "next/image";
-import Logo from "@/app/admin/src/assets/GrowMallLogo.png";
+import Logo from "@/app/admin/src/assets/smallLogo.png";
 
 import { useRouter } from "next/navigation";
 
