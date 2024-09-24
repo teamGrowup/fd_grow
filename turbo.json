@@ -1,0 +1,52 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "tsconfig.json"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "type-check": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": []
+    },
+    "buyer#dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "seller#dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "admin#dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    }
+  }
+}
