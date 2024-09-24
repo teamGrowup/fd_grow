@@ -1,11 +1,16 @@
+'use client';
+
 import React from "react";
 
 import { Button } from "@/packages/ui/src/index";
+import LogoBar from "../../../components/LogoBar";
+
+
 
 const SellerMain: React.FC = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <LogoBar />
       <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-6 relative">
         <div>
           <img src="*" alt="chart" />
@@ -27,17 +32,17 @@ const SellerMain: React.FC = () => {
       </div>
       <div className="translate-y-14 py-3 flex flex-col gap-8 mt-1">
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
             상품 현황 조회
           </Button>
         </div>
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
             브랜드 관리
           </Button>
         </div>
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
             주문 관리
           </Button>
         </div>

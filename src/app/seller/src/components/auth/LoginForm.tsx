@@ -128,14 +128,14 @@ export default function LoginForm() {
       </div>
       
       <Button 
-        className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3"
+        className="w-full bg-black text-white hover:bg-gray-700 rounded-full py-2 h-[47px] translate-y-3"
         type="button"
-        disabled={!isFormValid}
+        // disabled={!isFormValid}
       >
         로그인
       </Button>
       <Button 
-        className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3"
+        className="w-full bg-black text-white hover:bg-gray-700 rounded-full py-2 h-[47px] translate-y-3"
         onClick={handleSignupClient}
         type="button"
       >

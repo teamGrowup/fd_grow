@@ -26,7 +26,7 @@ export default function LoginScreen() {
       </div>
       <form action="/signup/business">
         <Button
-          className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 translate-y-10 h-[47px]"
+          className="w-full bg-black text-white hover:bg-gray-700 rounded-full py-2 translate-y-10 h-[47px]"
           type="submit"
         >
           사업자 회원가입

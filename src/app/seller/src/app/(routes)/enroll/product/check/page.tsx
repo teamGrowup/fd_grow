@@ -1,11 +1,12 @@
 import React from "react";
 
 import { Button } from "@/packages/ui/src/button";
+import LogoBar from "@/app/seller/src/components/LogoBar";
 
 const ProductCheck: React.FC = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <LogoBar />
       <div className="grid grid-cols-2 place-items-center translate-y-12">
         <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
           <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
@@ -80,7 +81,7 @@ const ProductCheck: React.FC = () => {
           </Button>
         </div>
       </div>
-      <Button className="bg-blue-500 text-white rounded-full w-1/3 translate-y-8 mx-auto">
+      <Button className="bg-black text-white rounded-full w-1/3 translate-y-8 mx-auto">
         상품 등록하기
       </Button>
     </>
