@@ -40,7 +40,7 @@ export default function ManagerLoginPage() {
           <Input
             type="email"
             id="email"
-            placeholder="abcdefg@gmail.com"
+            placeholder="이메일 입력"
             className="w-[380px] h-[47px] rounded-full border-black ml-3 mx-auto"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -57,7 +57,7 @@ export default function ManagerLoginPage() {
           <Input
             type="password"
             id="password"
-            placeholder="************"
+            placeholder="비밀번호 입력"
             className="w-[380px] h-[47px] rounded-full border-black ml-3 mx-auto"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
