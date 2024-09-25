@@ -15,7 +15,7 @@ const ProductEnrollmentRequestPage: React.FC = () => {
         <Image
           src={Logo}
           alt="logo"
-          className="absolute w-1/3 h-full top-0 left-0 cursor-pointer"
+          className="absolute w-1/5 h-full top-0 left-0 cursor-pointer translate-x-6"
           onClick={() => router.push('/main')}
         />
       </div>

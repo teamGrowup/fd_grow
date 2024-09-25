@@ -1,11 +1,12 @@
 import React from "react";
 
 import { Button } from "@/packages/ui/src/button";
+import LogoBar from "../../../components/LogoBar";
 
 const OrderViewPage = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <LogoBar />
       <div className="bg-gray-300 w-[310px] h-[260px] mx-auto mt-4 relative">
         <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           검색 조건 필터링

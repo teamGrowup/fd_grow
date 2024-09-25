@@ -1,49 +1,37 @@
-import React from "react";
-
 import { Button } from "@/packages/ui/src/index";
+import LoginForm from "../../../components/auth/LoginForm";
 
-const SellerMain: React.FC = () => {
+export default function LoginScreen() {
   return (
-    <>
-      <div className="bg-gray-300 py-12"></div>
-      <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-6 relative">
-        <div>
-          <img src="*" alt="chart" />
-        </div>
-        <div>
-          <h3 className="font-medium text-xl absolute bottom-2 left-6">
-            매출 통계
-          </h3>
-        </div>
-      </div>
-      <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-12 relative">
-        <div className="absolute left-4 top-4">
-          <h3 className="font-medium text-xl">구매 미확정 수: 5건</h3>
-          <h3 className="font-medium text-xl">누적 정산금: 100원</h3>
-          <h3 className="font-medium text-xl">배송 대기중: 2건</h3>
-          <h3 className="font-medium text-xl">배송 중: 1건</h3>
-          <h3 className="font-medium text-xl">배송 완료: 3건</h3>
-        </div>
-      </div>
-      <div className="translate-y-14 py-3 flex flex-col gap-8 mt-1">
-        <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
-            상품 현황 조회
-          </Button>
-        </div>
-        <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
-            브랜드 관리
-          </Button>
-        </div>
-        <div className="flex justify-center">
-          <Button className="w-4/5 bg-blue-600 py-6 rounded-full">
-            주문 관리
-          </Button>
-        </div>
-      </div>
-    </>
-  );
-};
+    <div className="px-3">
+      <h2 className="text-2xl font-bold text-center my-[60px]">로그인</h2>
 
-export default SellerMain;
+      <LoginForm />
+
+      <div className="my-6 text-center text-sm text-gray-500 relative">
+        <span className="bg-white px-2 relative z-10">Or sign in with</span>
+        <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-300 -z-1"></div>
+      </div>
+
+      <div className="flex justify-center space-x-4 mb-6 translate-y-6">
+        <Button className="w-12 h-12 rounded-full bg-white border border-gray-300 flex items-center justify-center p-0">
+          <span className="text-2xl font-bold text-blue-500">G</span>
+        </Button>
+        <Button className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center p-0">
+          <span className="text-2xl font-bold text-black">K</span>
+        </Button>
+        <Button className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center p-0">
+          <span className="text-2xl font-bold text-white">N</span>
+        </Button>
+      </div>
+      <form action="/signup/business">
+        <Button
+          className="w-full bg-black text-white hover:bg-gray-700 rounded-full py-2 translate-y-10 h-[47px]"
+          type="submit"
+        >
+          사업자 회원가입
+        </Button>
+      </form>
+    </div>
+  );
+}

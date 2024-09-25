@@ -1,11 +1,12 @@
 import React from "react";
 
 import { Button } from "@/packages/ui/src/button";
+import LogoBar from "@/app/seller/src/components/LogoBar";
 
 const EnrollProduct: React.FC = () => {
   return (
     <>
-      <div className="bg-gray-300 py-12"></div>
+      <LogoBar />
       <div className="bg-gray-300 w-[300px] h-[130px] mx-auto translate-y-6">
         <div>
           <img src="*" alt="상품 이미지 업로드" />
@@ -38,7 +39,7 @@ const EnrollProduct: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button className="w-3/4 bg-blue-600 py-6 rounded-full translate-y-24">
+        <Button className="w-3/4 bg-black text-white py-6 rounded-full translate-y-24">
           상품 등록 및 허가 요청
         </Button>
       </div>
