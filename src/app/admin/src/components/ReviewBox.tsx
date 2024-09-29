@@ -33,16 +33,10 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
 
   return (
     <>
-      <div
-        className="w-[366px] h-[124px] bg-white flex mx-auto"
-        id={id}
-      >
+      <div className="w-[366px] h-[124px] bg-white flex mx-auto" id={id}>
         <div className="w-1/3 relative">
-          <div className="bg-gray-300 w-[42px] h-[36px] translate-x-2 translate-y-1">
-            <p className="text-black text-sm">프로필 사진</p>
-          </div>
           <div className="bg-gray-300 w-[58px] h-[50px] translate-x-2 translate-y-3">
-            <p className="text-black text-sm">구매했던 상품</p>
+            <p className="text-black text-sm">상품사진</p>
           </div>
         </div>
         <div className="bg-black w-2/3 h-[113px] relative my-auto">
