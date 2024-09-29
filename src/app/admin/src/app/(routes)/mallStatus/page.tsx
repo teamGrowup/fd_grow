@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import React from "react";
 import Image from "next/image";
 import Logo from "@/app/admin/src/assets/smallLogo.png";
 import { useRouter } from "next/navigation";
 
-const shoppingMallStatusPage: React.FC = () => {
+const ShoppingMallStatusPage: React.FC = () => {
   const router = useRouter();
 
   return (
@@ -18,8 +18,10 @@ const shoppingMallStatusPage: React.FC = () => {
           onClick={() => router.push("/main")}
         />
       </div>
-      <div className="flex flex-col gap-5">
-        <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-6 relative">
+      <div className="flex flex-col gap-5 overflow-y-auto h-[calc(100vh-100px)]">
+        {" "}
+        {/* 로고 영역 높이를 고려하여 조정 */}
+        <div className="bg-gray-300 w-[300px] h-[140px] mx-auto translate-y-6 relative">
           <div>
             <img src="*" alt="chart" />
           </div>
@@ -29,7 +31,7 @@ const shoppingMallStatusPage: React.FC = () => {
             </h3>
           </div>
         </div>
-        <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-6 relative">
+        <div className="bg-gray-300 w-[300px] h-[140px] mx-auto translate-y-6 relative">
           <div>
             <img src="*" alt="chart" />
           </div>
@@ -39,7 +41,7 @@ const shoppingMallStatusPage: React.FC = () => {
             </h3>
           </div>
         </div>
-        <div className="bg-gray-300 w-[300px] h-[170px] mx-auto translate-y-6 relative">
+        <div className="bg-gray-300 w-[300px] h-[140px] mx-auto translate-y-6 relative">
           <div>
             <img src="*" alt="chart" />
           </div>
@@ -49,14 +51,14 @@ const shoppingMallStatusPage: React.FC = () => {
             </h3>
           </div>
         </div>
-      </div>
-      <div className="bg-gray-300 w-[300px] h-[90px] mx-auto translate-y-16 flex justify-center items-center">
-        <div>
-          <p className="text-md font-bold">데이터 필터링</p>
+        <div className="bg-gray-300 w-[300px] h-[90px] mx-auto translate-y-16 flex justify-center items-center">
+          <div>
+            <p className="text-md font-bold">데이터 필터링</p>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default shoppingMallStatusPage;
+export default ShoppingMallStatusPage;
