@@ -2,10 +2,10 @@
 import { Button } from "@/packages/ui/src/index";
 
 import LogoBar from "../../../components/LogoBar";
-
+import MultiItem from "../../../components/MultiItem";
 import FooterBar from "../../../components/FooterBar";
 
-const BrandEnrollmentRequestPage: React.FC = () => {
+const BrandEnrollmentRequestPage: React.FC = () => { // 컴포넌트 이용해서 수정할 것
   return (
     <>
       <LogoBar />

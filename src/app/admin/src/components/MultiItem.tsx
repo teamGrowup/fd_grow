@@ -17,7 +17,17 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
       : "bg-yellow-700";
 
   const categoryName =
-    category === "product" ? "상품" : category === "brand" ? "브랜드" : "";
+    category === "product" ? (
+      "상품"
+    ) : category === "brand" ? (
+      <>
+        브랜드
+        <br />
+        요청
+      </>
+    ) : (
+      ""
+    );
 
   return (
     <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
@@ -35,10 +45,10 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
       </p>
       {isApproved === null && (
         <>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 left-2 w-[50px] h-[28px]">
+          <Button className="absolute bg-black text-white rounded-full bottom-2 left-2 w-[50px] h-[28px]">
             허가
           </Button>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 right-2 w-[50px] h-[28px]">
+          <Button className="absolute bg-black text-white rounded-full bottom-2 right-2 w-[50px] h-[28px]">
             거부
           </Button>
         </>

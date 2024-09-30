@@ -17,7 +17,7 @@ const FooterBar: React.FC<FooterPropsType> = ({ category }) => {
       <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
         <button
           type="button"
-          className="text-xs text-blue-400 font-bold"
+          className="text-xs text-black font-bold"
           onClick={() => setScope("all")}
         >
           전체 {categoryName}
