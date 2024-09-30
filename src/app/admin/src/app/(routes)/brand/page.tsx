@@ -3,6 +3,8 @@ import { Button } from "@/packages/ui/src/index";
 
 import LogoBar from "../../../components/LogoBar";
 
+import FooterBar from "../../../components/FooterBar";
+
 const BrandEnrollmentRequestPage: React.FC = () => {
   return (
     <>
@@ -81,14 +83,7 @@ const BrandEnrollmentRequestPage: React.FC = () => {
           </p>
         </div>
       </div>
-      <footer className="border-t border-gray-300 mt-6">
-        <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
-          <li className="text-sm text-blue-400 font-bold">전체 상품</li>
-          <li className="text-sm text-gray-300">허가 상품</li>
-          <li className="text-sm text-gray-300">허가 대기 상품</li>
-          <li className="text-sm text-gray-300">미허가 상품</li>
-        </ul>
-      </footer>
+      <FooterBar category="brand" />
     </>
   );
 };
