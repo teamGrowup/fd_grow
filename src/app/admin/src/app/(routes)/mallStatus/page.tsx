@@ -14,7 +14,7 @@ const ShoppingMallStatusPage: React.FC = () => {
   return (
     <>
       <LogoBar />
-      <div className="flex flex-col gap-5 overflow-y-auto h-[calc(100vh-100px)]">
+      <div className="flex flex-col gap-5 overflow-y-auto h-[calc(100vh-100px)] relative">
         {/* 판매자 판매 현황 섹션 */}
         <div className="w-4/5 mx-auto translate-y-6 relative">
           <div className="bg-gray-100 p-4 rounded-lg shadow-md relative">
@@ -46,7 +46,7 @@ const ShoppingMallStatusPage: React.FC = () => {
         </div>
 
         {/* 데이터 필터링 섹션 */}
-        <div className="w-4/5 h-1/2 rounded-md mx-auto translate-y-16 flex justify-center items-center cursor-pointer">
+        <div className="w-4/5 h-1/2 rounded-md mx-auto translate-y-14 flex justify-center items-center cursor-pointer">
           <div className="w-full bg-black rounded-lg text-center">
             <Button className="text-md font-bold">데이터 필터링</Button>
           </div>
