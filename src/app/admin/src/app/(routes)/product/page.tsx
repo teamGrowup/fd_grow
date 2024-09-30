@@ -1,24 +1,13 @@
-'use client';
+"use client";
 
 import { Button } from "@/packages/ui/src/index";
-import Image from "next/image";
-import Logo from "@/app/admin/src/assets/smallLogo.png";
 
-import { useRouter } from "next/navigation";
+import LogoBar from "../../../components/LogoBar";
 
 const ProductEnrollmentRequestPage: React.FC = () => {
-  const router = useRouter();
-
   return (
     <>
-      <div className="bg-black py-12 relative w-full">
-        <Image
-          src={Logo}
-          alt="logo"
-          className="absolute w-1/5 h-full top-0 left-0 cursor-pointer translate-x-6"
-          onClick={() => router.push('/main')}
-        />
-      </div>
+      <LogoBar />
       <div className="grid grid-cols-2 place-items-center translate-y-12">
         <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
           <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
