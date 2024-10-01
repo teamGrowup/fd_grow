@@ -13,7 +13,7 @@ const FooterBar: React.FC<FooterPropsType> = ({ category }) => {
     category === "product" ? "상품" : category === "brand" ? "브랜드" : "";
 
   return (
-    <footer className="border-t border-gray-300 mt-6">
+    <footer className="border-t border-gray-300">
       <ul className="flex justify-between items-center gap-10 py-2 font-sans w-full flex-nowrap">
         <li className="text-center flex-grow">
           <button
