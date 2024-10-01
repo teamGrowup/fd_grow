@@ -45,11 +45,11 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
 
   return (
     <div
-      className="w-[140px] h-[140px] bg-gray-300 rounded-lg shadow-lg relative mb-10 transition-transform transform hover:scale-105"
+      className="min-w-[140px] min-h-[140px] bg-gray-300 rounded-lg shadow-lg relative mb-10 transition-transform transform hover:scale-105"
       onClick={handleClick}
     >
       <div
-        className={`w-[68px] h-[48px] text-sm absolute z-10 ${backgroundColor} rounded-full text-white -top-5 -left-5 text-center py-1 shadow-md`}
+        className={`min-w-[68px] min-h-[48px] text-sm absolute z-10 ${backgroundColor} rounded-full text-white -top-5 -left-5 text-center py-1 shadow-md`}
       >
         등록
         <br />

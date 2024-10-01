@@ -32,7 +32,7 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
   };
 
   return (
-    <div className="w-[366px] h-[124px] bg-white border border-gray-300 shadow-lg rounded-lg flex mx-auto my-4">
+    <div className="w-full min-w-3/4 min-h-[120px] bg-white border border-gray-300 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden">
       <div className="w-1/3 flex justify-center items-center">
         <div className="bg-gray-200 w-[58px] h-[50px] flex justify-center items-center rounded-md">
           <p className="text-black text-sm">상품사진</p>
