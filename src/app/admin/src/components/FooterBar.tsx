@@ -7,42 +7,58 @@ interface FooterPropsType {
 }
 
 const FooterBar: React.FC<FooterPropsType> = ({ category }) => {
-  const [scope, setScope] = useState<string>("all"); //scope 변수를 부모 컴포넌트에서 활용 가능하게 해야 함
+  const [scope, setScope] = useState<string>("all"); // scope 변수를 부모 컴포넌트에서 활용 가능하게 해야 함
 
   const categoryName =
     category === "product" ? "상품" : category === "brand" ? "브랜드" : "";
 
   return (
     <footer className="border-t border-gray-300 mt-6">
-      <ul className="flex justify-center items-center gap-10 py-2 translate-y-6 font-sans">
-        <button
-          type="button"
-          className="text-xs text-black font-bold"
-          onClick={() => setScope("all")}
-        >
-          전체 {categoryName}
-        </button>
-        <button
-          type="button"
-          className="text-xs text-gray-300"
-          onClick={() => setScope("true")}
-        >
-          허가 {categoryName}
-        </button>
-        <button
-          type="button"
-          className="text-xs text-gray-300"
-          onClick={() => setScope("wait")}
-        >
-          허가 대기 {categoryName}
-        </button>
-        <button
-          type="button"
-          className="text-xs text-gray-300"
-          onClick={() => setScope("false")}
-        >
-          미허가 {categoryName}
-        </button>
+      <ul className="flex justify-between items-center gap-10 py-2 font-sans w-full flex-nowrap">
+        <li className="text-center flex-grow">
+          <button
+            type="button"
+            className={`text-lg font-bold ${
+              scope === "all" ? "text-black" : "text-gray-400"
+            } hover:text-black w-full`}
+            onClick={() => setScope("all")}
+          >
+            전체
+          </button>
+        </li>
+        <li className="text-center flex-grow">
+          <button
+            type="button"
+            className={`text-lg ${
+              scope === "true" ? "text-black" : "text-gray-400"
+            } hover:text-black w-full`}
+            onClick={() => setScope("true")}
+          >
+            허가 완료
+          </button>
+        </li>
+        <li className="text-center flex-grow">
+          <button
+            type="button"
+            className={`text-lg ${
+              scope === "wait" ? "text-black" : "text-gray-400"
+            } hover:text-black w-full`}
+            onClick={() => setScope("wait")}
+          >
+            허가 대기
+          </button>
+        </li>
+        <li className="text-center flex-grow">
+          <button
+            type="button"
+            className={`text-lg ${
+              scope === "false" ? "text-black" : "text-gray-400"
+            } hover:text-black w-full`}
+            onClick={() => setScope("false")}
+          >
+            미허가
+          </button>
+        </li>
       </ul>
     </footer>
   );
