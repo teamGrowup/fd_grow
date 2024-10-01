@@ -1,87 +1,21 @@
 "use client";
-import { Button } from "@/packages/ui/src/index";
 
 import LogoBar from "../../../components/LogoBar";
 import MultiItem from "../../../components/MultiItem";
 import FooterBar from "../../../components/FooterBar";
 
-const BrandEnrollmentRequestPage: React.FC = () => { // 컴포넌트 이용해서 수정할 것
+const BrandEnrollmentRequestPage: React.FC = () => {
+
   return (
     <>
       <LogoBar />
       <div className="grid grid-cols-2 place-items-center translate-y-12">
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 1
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 2
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 3
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 4
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-yellow-700 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 대기 중
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 5
-          </p>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 left-2 w-[50px] h-[28px]">
-            허가
-          </Button>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 right-2 w-[50px] h-[28px]">
-            거부
-          </Button>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-red-600 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 거부됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 6
-          </p>
-        </div>
+        <MultiItem id="1" category="brand" isApproved={true} />
+        <MultiItem id="2" category="brand" isApproved={true} />
+        <MultiItem id="3" category="brand" isApproved={true} />
+        <MultiItem id="4" category="brand" isApproved={true} />
+        <MultiItem id="5" category="brand" isApproved={null} />
+        <MultiItem id="6" category="brand" isApproved={false} />
       </div>
       <FooterBar category="brand" />
     </>

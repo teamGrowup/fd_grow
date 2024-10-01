@@ -56,8 +56,6 @@ const ReviewMonitoringPage: React.FC = () => {
         <ReviewBox id="1" />
         <ReviewBox id="2" />
         <ReviewBox id="3" />
-        <ReviewBox id="4" />
-        <ReviewBox id="5" />
       </div>
     </>
   );

@@ -14,7 +14,7 @@ const FooterBar: React.FC<FooterPropsType> = ({ category }) => {
 
   return (
     <footer className="border-t border-gray-300 mt-6">
-      <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
+      <ul className="flex justify-center items-center gap-10 py-2 translate-y-6 font-sans">
         <button
           type="button"
           className="text-xs text-black font-bold"

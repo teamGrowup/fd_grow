@@ -25,43 +25,36 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
   };
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const deleteCheck = window.prompt("리뷰를 삭제할까요??");
+    const deleteCheck = window.prompt("리뷰를 삭제할까요?");
     if (deleteCheck) {
       await DeleteReview(); // DeleteReview 함수 호출
     }
   };
 
   return (
-    <>
-      <div className="w-[366px] h-[124px] bg-white flex mx-auto" id={id}>
-        <div className="w-1/3 relative">
-          <div className="bg-gray-300 w-[58px] h-[50px] translate-x-2 translate-y-3">
-            <p className="text-black text-sm">상품사진</p>
-          </div>
-        </div>
-        <div className="bg-black w-2/3 h-[113px] relative my-auto">
-          <p className="text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            후기
-          </p>
+    <div className="w-[366px] h-[124px] bg-white border border-gray-300 shadow-lg rounded-lg flex mx-auto my-4">
+      <div className="w-1/3 flex justify-center items-center">
+        <div className="bg-gray-200 w-[58px] h-[50px] flex justify-center items-center rounded-md">
+          <p className="text-black text-sm">상품사진</p>
         </div>
       </div>
-      <div className="flex justify-between">
-        <div className="translate-x-10 w-[89px] h-[29px] flex items-center justify-center">
-          <p className="text-black text-center flex justify-center items-center gap-3">
-            <span>
-              <Heart size={"18px"} />
-            </span>
-            0
+      <div className="bg-black w-2/3 h-full flex items-center justify-center rounded-r-lg">
+        <p className="text-white text-lg font-semibold">후기</p>
+      </div>
+      <div className="flex justify-between items-center mt-2">
+        <div className="flex items-center justify-center w-[89px] h-[29px]">
+          <p className="text-black text-center flex items-center gap-1">
+            <Heart size={"18px"} className="text-red-500" />0
           </p>
         </div>
         <Button
-          className="bg-black text-white rounded-full w-[60px] h-[28px] -translate-x-10"
+          className="bg-black text-white rounded-full w-[60px] h-[28px] hover:bg-gray-800 transition-colors -translate-x-2"
           onClick={handleDeleteClick}
         >
           삭제
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
