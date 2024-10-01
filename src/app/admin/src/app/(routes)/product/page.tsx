@@ -4,24 +4,50 @@ import LogoBar from "../../../components/LogoBar";
 import FooterBar from "../../../components/FooterBar";
 
 import MultiItem from "../../../components/MultiItem";
+import { useState } from "react";
+
+const items = [
+  { id: "1", isApproved: true },
+  { id: "2", isApproved: true },
+  { id: "3", isApproved: true },
+  { id: "4", isApproved: true },
+  { id: "5", isApproved: null },
+  { id: "6", isApproved: false },
+  { id: "7", isApproved: false },
+  { id: "8", isApproved: false },
+  { id: "9", isApproved: false },
+];
 
 const ProductEnrollmentRequestPage: React.FC = () => {
+  const [scope, setScope] = useState<string>("all");
+
+  const conditionalItems = () => {
+    if (scope === "true") {
+      return items.filter((val) => val.isApproved === true);
+    } else if (scope === "wait") {
+      return items.filter((val) => val.isApproved === null);
+    } else if (scope === "false") {
+      return items.filter((val) => val.isApproved === false);
+    } else {
+      return items;
+    }
+  };
+
   return (
     <>
       <LogoBar />
       <div className="flex flex-col h-[calc(100vh-100px)]">
         <div className="flex-grow grid grid-cols-2 place-items-center overflow-y-auto pt-7">
-          <MultiItem category="product" id="1" isApproved={true} />
-          <MultiItem category="product" id="2" isApproved={true} />
-          <MultiItem category="product" id="3" isApproved={true} />
-          <MultiItem category="product" id="4" isApproved={true} />
-          <MultiItem category="product" id="5" isApproved={null} />
-          <MultiItem category="product" id="6" isApproved={false} />
-          <MultiItem category="product" id="7" isApproved={false} />
-          <MultiItem category="product" id="8" isApproved={false} />
-          <MultiItem category="product" id="9" isApproved={false} />
+          {conditionalItems().map((item) => (
+            <MultiItem
+              key={item.id}
+              category="product"
+              id={item.id}
+              isApproved={item.isApproved}
+            />
+          ))}
         </div>
-        <FooterBar category="product" />
+        <FooterBar category="product" scope={scope} setScope={setScope} />
       </div>
     </>
   );

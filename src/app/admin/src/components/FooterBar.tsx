@@ -4,11 +4,15 @@ import React, { useState } from "react";
 
 interface FooterPropsType {
   category: string;
+  scope: string;
+  setScope: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FooterBar: React.FC<FooterPropsType> = ({ category }) => {
-  const [scope, setScope] = useState<string>("all"); // scope 변수를 부모 컴포넌트에서 활용 가능하게 해야 함
-
+const FooterBar: React.FC<FooterPropsType> = ({
+  category,
+  scope,
+  setScope,
+}) => {
   const categoryName =
     category === "product" ? "상품" : category === "brand" ? "브랜드" : "";
 
