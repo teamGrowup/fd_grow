@@ -5,6 +5,8 @@ import { Button } from "@/packages/ui/src";
 
 import { useRouter } from "next/navigation";
 
+import useRequestAction from "../hooks/useRequestAction";
+
 interface ItemPropsType {
   category: string;
   id: string;
@@ -13,6 +15,8 @@ interface ItemPropsType {
 
 const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
   const router = useRouter();
+
+  const { handleAction } = useRequestAction(`${category}-requests`, id);
 
   const backgroundColor =
     isApproved === true
@@ -62,10 +66,16 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
       </p>
       {isApproved === null && (
         <>
-          <Button className="absolute bg-black text-white rounded-lg bottom-2 left-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800">
+          <Button
+            className="absolute bg-black text-white rounded-lg bottom-2 left-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800"
+            onClick={() => handleAction("approve")}
+          >
             허가
           </Button>
-          <Button className="absolute bg-black text-white rounded-lg bottom-2 right-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800">
+          <Button
+            className="absolute bg-black text-white rounded-lg bottom-2 right-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800"
+            onClick={() => handleAction("deny")}
+          >
             거부
           </Button>
         </>

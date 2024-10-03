@@ -4,7 +4,9 @@ import LogoBar from "../../../components/LogoBar";
 import FooterBar from "../../../components/FooterBar";
 
 import MultiItem from "../../../components/MultiItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import useGetRequest from "../../../hooks/useGetRequest";
 
 const items = [
   { id: "1", isApproved: true },
@@ -19,7 +21,10 @@ const items = [
 ];
 
 const ProductEnrollmentRequestPage: React.FC = () => {
+  //조건에 맞게 상품을 불러오는 로직 작성
   const [scope, setScope] = useState<string>("all");
+
+  const { getRequest } = useGetRequest("product-requests"); // 뒤에 파라미터를 달리 하여 원하는 조건의 상품만 불러옴
 
   const conditionalItems = () => {
     if (scope === "true") {

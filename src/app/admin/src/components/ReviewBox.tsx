@@ -3,7 +3,7 @@ import { Button } from "@/packages/ui/src";
 import { Heart } from "lucide-react";
 
 interface ReviewBoxProps {
-  id: string; // id props의 타입을 정의
+  id: string;
 }
 
 const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
@@ -19,15 +19,15 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
 
       window.alert("리뷰가 성공적으로 삭제되었습니다");
     } catch (error) {
-      console.error(error); // 에러 로그 출력
-      window.alert("리뷰 삭제에 실패했습니다."); // 사용자에게 에러 메시지 알림
+      console.error(error);
+      window.alert("리뷰 삭제에 실패했습니다.");
     }
   };
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const deleteCheck = window.prompt("리뷰를 삭제할까요?");
     if (deleteCheck) {
-      await DeleteReview(); // DeleteReview 함수 호출
+      await DeleteReview();
     }
   };
 

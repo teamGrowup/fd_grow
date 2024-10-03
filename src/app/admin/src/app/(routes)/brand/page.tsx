@@ -3,7 +3,9 @@
 import LogoBar from "../../../components/LogoBar";
 import MultiItem from "../../../components/MultiItem";
 import FooterBar from "../../../components/FooterBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import useGetRequest from "../../../hooks/useGetRequest";
 
 const items = [
   { id: "1", isApproved: true },
@@ -19,6 +21,7 @@ const items = [
 
 const BrandEnrollmentRequestPage: React.FC = () => {
   const [scope, setScope] = useState<string>("all");
+  const { getRequest } = useGetRequest("brand-request");
 
   const conditionalItems = () => {
     if (scope === "true") {
