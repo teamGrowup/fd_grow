@@ -2,12 +2,12 @@ import { useCallback } from "react"; //허가, 거부 버튼 클릭 시 요청�
 
 type ActionType = "approve" | "deny"; // approve와 deny만 허용
 
-const useRequestAction = (resourceType: string, id: string) => {
+const useRequestAction = (resourceType: string, id?: string) => {
     const handleAction = useCallback(
         async (actionType: ActionType): Promise<void> => { // 반환 타입을 Promise<void>로 명시
             try {
                 const response = await fetch(
-                    `http://backend/admin/${resourceType}/${id}/${actionType}`,
+                    `http://backend/admin/${resourceType}/${id ?? ''}/${actionType}`,
                     {
                         method: "PATCH",
                     }

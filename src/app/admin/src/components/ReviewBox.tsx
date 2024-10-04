@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/packages/ui/src";
 import { Heart } from "lucide-react";
 
@@ -7,6 +7,8 @@ interface ReviewBoxProps {
 }
 
 const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
+  const [heartState, setHeartState] = useState<boolean>(false);
+
   const DeleteReview = async () => {
     try {
       const fetchResponse = await fetch(`http://backend-api/reviews/${id}`, {
@@ -30,6 +32,10 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
       await DeleteReview();
     }
   };
+
+  const handleClickHeart = async () => {
+    setHeartState((prevState) => !prevState);
+  }; //수정!
 
   return (
     <div className="w-full min-w-3/4 min-h-[120px] bg-white border border-gray-300 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden">
