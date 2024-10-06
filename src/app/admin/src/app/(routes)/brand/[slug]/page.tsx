@@ -3,7 +3,22 @@
 import { Button } from "@/packages/ui/src/index";
 import LogoBar from "@/app/admin/src/components/LogoBar";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 const BrandDetail: React.FC = () => {
+  const router = useRouter();
+  const [isApproved, setIsApproved] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // 클라이언트 측에서만 실행됨
+      const queryParams = new URLSearchParams(window.location.search);
+      const approvedStatus = queryParams.get("isApproved");
+      console.log(approvedStatus);
+      setIsApproved(approvedStatus);
+    }
+  }, []);
+
   return (
     <>
       <LogoBar />
@@ -26,12 +41,16 @@ const BrandDetail: React.FC = () => {
         <p className="text-center text-black">브랜드명</p>
       </div>
       <div className="flex justify-between w-2/3 mx-auto mt-6">
-        <Button className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors w-full mr-2">
-          허가
-        </Button>
-        <Button className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors w-full ml-2">
-          거부
-        </Button>
+        {isApproved === "null" && (
+          <>
+            <Button className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors w-full mr-2">
+              허가
+            </Button>
+            <Button className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors w-full ml-2">
+              거부
+            </Button>
+          </>
+        )}
       </div>
     </>
   );

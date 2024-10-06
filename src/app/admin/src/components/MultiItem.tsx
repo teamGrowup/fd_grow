@@ -39,11 +39,12 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
     );
 
   const handleClick = () => {
+    const query = `?isApproved=${isApproved}`;
     if (category === "product") {
-      router.push(`/product/${id}`);
+      router.push(`/product/${id}${query}`);
     }
     if (category === "brand") {
-      router.push(`/brand/${id}`);
+      router.push(`/brand/${id}${query}`);
     }
   };
 

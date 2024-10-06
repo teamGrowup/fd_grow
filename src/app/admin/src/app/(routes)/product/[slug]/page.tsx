@@ -3,9 +3,19 @@
 import { Button } from "@/packages/ui/src/index";
 import LogoBar from "@/app/admin/src/components/LogoBar";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const ProductDetailPage: React.FC = () => {
   const { params } = useParams();
+  const [isApproved, setIsApproved] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams(window.location.search);
+      const approvedStatus = queryParams.get("isApproved");
+      setIsApproved(approvedStatus);
+    }
+  }, []);
 
   return (
     <>
@@ -15,12 +25,16 @@ const ProductDetailPage: React.FC = () => {
           상품 {params}에 대한 분석 화면
         </h1>
         <div className="flex justify-between absolute bottom-4 left-0 right-0 px-4">
-          <Button className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors w-full mr-2">
-            허가
-          </Button>
-          <Button className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors w-full ml-2">
-            거부
-          </Button>
+          {isApproved === "null" && (
+            <>
+              <Button className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors w-full mr-2">
+                허가
+              </Button>
+              <Button className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors w-full ml-2">
+                거부
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </>
