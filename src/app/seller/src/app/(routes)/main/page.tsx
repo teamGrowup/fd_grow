@@ -1,11 +1,13 @@
-'use client';
+"use client";
 
 import React from "react";
 
 import { Button } from "@/packages/ui/src/index";
 import LogoBar from "../../../components/LogoBar";
 
-
+import { PackageSearch } from "lucide-react";
+import { Store } from "lucide-react";
+import { Monitor } from "lucide-react";
 
 const SellerMain: React.FC = () => {
   return (
@@ -32,17 +34,20 @@ const SellerMain: React.FC = () => {
       </div>
       <div className="translate-y-14 py-3 flex flex-col gap-8 mt-1">
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full flex justify-center gap-3">
+            <PackageSearch />
             상품 현황 조회
           </Button>
         </div>
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full flex justify-center gap-3">
+            <Store />
             브랜드 관리
           </Button>
         </div>
         <div className="flex justify-center">
-          <Button className="w-4/5 bg-black text-white py-6 rounded-full">
+          <Button className="w-4/5 bg-black text-white py-6 rounded-full flex justify-center gap-3">
+            <Monitor />
             주문 관리
           </Button>
         </div>

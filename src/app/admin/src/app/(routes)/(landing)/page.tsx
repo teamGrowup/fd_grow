@@ -18,7 +18,7 @@ export default function ManagerLoginPage() {
     try {
       const data = await login(email, password);
       setAccessToken(data.data.accessToken);
-      router.push("/home");
+      router.push("/main");
     } catch (error) {
       console.error("Login error:", error);
     }
