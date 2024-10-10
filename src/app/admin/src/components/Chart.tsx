@@ -7,7 +7,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
-import { dataset, valueFormatter } from "../dataset/dummy";
+import {
+  dataset,
+  valueFormatter_count,
+  valueFormatter_money,
+} from "../dataset/dummy";
 
 type TickParamsSelectorProps = {
   tickPlacement: "end" | "start" | "middle" | "extremities";
@@ -78,13 +82,15 @@ function TickParamsSelector({
   );
 }
 
-const chartSetting = {
+const chartSetting_money = {
   yAxis: [
     {
       label: "Sales Volume ($)",
     },
   ],
-  series: [{ dataKey: "seoul", valueFormatter, color: "black" }], // 바 색상을 검정색으로 지정
+  series: [
+    { dataKey: "seoul", valueFormatter: valueFormatter_money, color: "black" },
+  ], // 바 색상을 검정색으로 지정
   height: 300,
   sx: {
     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
@@ -93,13 +99,40 @@ const chartSetting = {
   },
 };
 
-export default function TickPlacementBars() {
+const chartSetting_count = {
+  yAxis: [
+    {
+      label: "Number of Sales",
+    },
+  ],
+  series: [
+    { dataKey: "seoul", valueFormatter: valueFormatter_count, color: "black" },
+  ], // 바 색상을 검정색으로 지정
+  height: 300,
+  sx: {
+    [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+      transform: "translateX(-10px)",
+    },
+  },
+};
+
+type unitType = "money" | "count";
+
+export default function TickPlacementBars({ unit }: { unit: unitType }) {
   const [tickPlacement, setTickPlacement] = React.useState<
     "start" | "end" | "middle" | "extremities"
   >("middle");
   const [tickLabelPlacement, setTickLabelPlacement] = React.useState<
     "middle" | "tick"
   >("middle");
+
+  let chartSetting;
+
+  if (unit === "money") {
+    chartSetting = chartSetting_money;
+  } else {
+    chartSetting = chartSetting_count;
+  }
 
   return (
     <div style={{ width: "100%" }}>

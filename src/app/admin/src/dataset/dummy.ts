@@ -85,6 +85,9 @@ export const dataset = [
     },
 ];
 
-export function valueFormatter(value: number | null) {
+export function valueFormatter_money(value: number | null) {
     return `${value} $`;
+}
+export function valueFormatter_count(value: number | null) {
+    return `${value}`;
 }
