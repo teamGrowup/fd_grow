@@ -19,46 +19,46 @@ const managerMainPage: React.FC = () => {
       <div className="translate-y-28 py-3 flex flex-col gap-8 mt-1">
         <div className="flex justify-center">
           <Button
-            className="w-4/5 bg-black py-8 rounded-full flex gap-3"
+            className="w-5/6 max-w-md bg-black py-6 sm:py-8 rounded-full flex gap-3 items-center justify-center"
             onClick={() => router.push("/mallStatus")}
           >
             <div>
               <ChartNoAxesCombined />
             </div>
-            판매 현황 조회
+            <span className="text-sm sm:text-base">판매 현황 조회</span>
           </Button>
         </div>
         <div className="flex justify-center">
           <Button
-            className="w-4/5 bg-black py-8 rounded-full flex gap-3"
+            className="w-5/6 max-w-md bg-black py-6 sm:py-8 rounded-full flex gap-3 items-center justify-center"
             onClick={() => router.push("/product")}
           >
             <div>
               <PackageSearch />
             </div>
-            상품 등록 요청 조회
+            <span className="text-sm sm:text-base">상품 등록 요청 조회</span>
           </Button>
         </div>
         <div className="flex justify-center">
           <Button
-            className="w-4/5 bg-black py-8 rounded-full flex gap-3"
+            className="w-5/6 max-w-md bg-black py-6 sm:py-8 rounded-full flex gap-3 items-center justify-center"
             onClick={() => router.push("/brand")}
           >
             <div>
               <Store />
             </div>
-            브랜드 입점 요청 조회
+            <span className="text-sm sm:text-base">브랜드 입점 요청 조회</span>
           </Button>
         </div>
         <div className="flex justify-center">
           <Button
-            className="w-4/5 bg-black py-8 rounded-full flex gap-3"
+            className="w-5/6 max-w-md bg-black py-6 sm:py-8 rounded-full flex gap-3 items-center justify-center"
             onClick={() => router.push("/review")}
           >
             <div>
               <Monitor />
             </div>
-            리뷰 모니터링
+            <span className="text-sm sm:text-base">리뷰 모니터링</span>
           </Button>
         </div>
       </div>
