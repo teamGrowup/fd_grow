@@ -14,7 +14,6 @@ export const useAuthenticatedFetch = () => {
     const response = await fetch(url, { ...options, headers });
 
     if (response.status === 401) {
-      // Handle token expiration (e.g., redirect to login)
       useAuthStore.getState().logout();
       throw new Error('Token expired');
     }
