@@ -11,7 +11,7 @@ interface DataFilterButtonProps {
 const DataFilterButton: React.FC<DataFilterButtonProps> = ({ setCategory }) => (
   <Popover.Root>
     <Popover.Trigger asChild>
-      <Button className="text-md font-bold bg-black text-white">
+      <Button className="text-md font-bold bg-black text-white py-6">
         데이터 필터링
       </Button>
     </Popover.Trigger>
