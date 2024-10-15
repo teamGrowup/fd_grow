@@ -2,9 +2,7 @@
 
 import React from "react";
 import { Button } from "@/packages/ui/src";
-
 import { useRouter } from "next/navigation";
-
 import useRequestAction from "../hooks/useRequestAction";
 
 interface ItemPropsType {
@@ -15,7 +13,6 @@ interface ItemPropsType {
 
 const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
   const router = useRouter();
-
   const { handleAction } = useRequestAction(`${category}-requests`, id);
 
   const backgroundColor =
@@ -50,11 +47,11 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
 
   return (
     <div
-      className="min-w-[140px] min-h-[140px] bg-gray-300 rounded-lg shadow-lg relative mb-10 transition-transform transform hover:scale-105"
+      className="min-w-[10rem] min-h-[10rem] bg-gray-300 rounded-lg shadow-lg relative mb-10 transition-transform transform hover:scale-105"
       onClick={handleClick}
     >
       <div
-        className={`min-w-[68px] min-h-[48px] text-sm absolute z-10 ${backgroundColor} rounded-full text-white -top-5 -left-5 text-center py-1 shadow-md`}
+        className={`min-w-[4.25rem] min-h-[3rem] text-sm absolute z-10 ${backgroundColor} rounded-full text-white -top-5 -left-5 text-center py-1 shadow-md`}
       >
         등록
         <br />
@@ -68,13 +65,13 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
       {isApproved === null && (
         <>
           <Button
-            className="absolute bg-black text-white rounded-lg bottom-2 left-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800"
+            className="absolute bg-green-500 text-white rounded-lg bottom-2 left-2 min-w-[3rem] min-h-[1.75rem] max-w-[3rem] max-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
             onClick={() => handleAction("approve")}
           >
             허가
           </Button>
           <Button
-            className="absolute bg-black text-white rounded-lg bottom-2 right-2 min-w-[50px] min-h-[28px] max-w-[50px] max-h-[28px] flex items-center justify-center shadow-md hover:bg-gray-800"
+            className="absolute bg-red-500 text-white rounded-lg bottom-2 right-2 min-w-[3rem] min-h-[1.75rem] max-w-[3rem] max-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-red-700"
             onClick={() => handleAction("deny")}
           >
             거부
