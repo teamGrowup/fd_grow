@@ -1,105 +1,56 @@
-'use client';
-import { Button } from "@/packages/ui/src/index";
-import Image from "next/image";
-import Logo from "@/app/admin/src/assets/smallLogo.png";
+"use client";
 
-import { useRouter } from "next/navigation";
+import LogoBar from "../../../components/LogoBar";
+import MultiItem from "../../../components/MultiItem";
+import FooterBar from "../../../components/FooterBar";
+import { useState, useEffect } from "react";
+
+import useGetRequest from "../../../hooks/useGetRequest";
+
+const items = [
+  { id: "1", isApproved: true },
+  { id: "2", isApproved: true },
+  { id: "3", isApproved: true },
+  { id: "4", isApproved: true },
+  { id: "5", isApproved: null },
+  { id: "6", isApproved: false },
+  { id: "7", isApproved: false },
+  { id: "8", isApproved: false },
+  { id: "9", isApproved: false },
+];
 
 const BrandEnrollmentRequestPage: React.FC = () => {
-  const router = useRouter();
+  const [scope, setScope] = useState<string>("all");
+  const { getRequest } = useGetRequest("brand-request");
+
+  const conditionalItems = () => {
+    if (scope === "true") {
+      return items.filter((val) => val.isApproved === true);
+    } else if (scope === "wait") {
+      return items.filter((val) => val.isApproved === null);
+    } else if (scope === "false") {
+      return items.filter((val) => val.isApproved === false);
+    } else {
+      return items;
+    }
+  };
 
   return (
     <>
-      <div className="bg-black py-12 relative w-full">
-        <Image
-          src={Logo}
-          alt="logo"
-          className="absolute w-1/5 h-full top-0 left-0 cursor-pointer translate-x-6"
-          onClick={() => router.push('/main')}
-        />
+      <LogoBar />
+      <div className="flex flex-col h-[calc(100vh-100px)]">
+        <div className="flex-grow overflow-y-auto grid grid-cols-2 place-items-center pt-7">
+          {conditionalItems().map((item) => (
+            <MultiItem
+              key={item.id}
+              category="brand"
+              id={item.id}
+              isApproved={item.isApproved}
+            />
+          ))}
+        </div>
+        <FooterBar category="brand" scope={scope} setScope={setScope} />
       </div>
-      <div className="grid grid-cols-2 place-items-center translate-y-12">
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 1
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 2
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 3
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 4
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-yellow-700 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 대기 중
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 5
-          </p>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 left-2 w-[50px] h-[28px]">
-            허가
-          </Button>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 right-2 w-[50px] h-[28px]">
-            거부
-          </Button>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-red-600 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 거부됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            브랜드
-            <br />
-            요청 6
-          </p>
-        </div>
-      </div>
-      <footer className="border-t border-gray-300 mt-6">
-        <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
-          <li className="text-sm text-blue-400 font-bold">전체 상품</li>
-          <li className="text-sm text-gray-300">허가 상품</li>
-          <li className="text-sm text-gray-300">허가 대기 상품</li>
-          <li className="text-sm text-gray-300">미허가 상품</li>
-        </ul>
-      </footer>
     </>
   );
 };
