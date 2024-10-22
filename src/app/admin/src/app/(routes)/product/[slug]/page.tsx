@@ -68,7 +68,7 @@ const ProductDetailPage: React.FC = () => {
           <Image
             src={shoesImg}
             alt="shoesImg"
-            className="w-full h-[70vh] object-cover"
+            className="w-full h-[80vh] object-cover"
           />
 
           {/* 브랜드 및 로고 */}
