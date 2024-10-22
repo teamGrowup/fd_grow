@@ -48,25 +48,27 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <>
-      <div className="relative">
-        <SlArrowLeft
-          className="absolute cursor-pointer m-5"
-          size={20}
-          onClick={handleClick}
-        />
-        <IoHomeOutline
-          className="absolute cursor-pointer m-4 right-4"
-          size={26}
-          onClick={handleHomeClick}
-        />
+      <div className="flex items-center sticky top-0 z-10 bg-gray-100">
+        <menu className="flex justify-between items-center w-full py-2">
+          <SlArrowLeft
+            className="cursor-pointer ml-5 my-2"
+            size={20}
+            onClick={handleClick}
+          />
+          <IoHomeOutline
+            className="cursor-pointer mr-5 my-2"
+            size={26}
+            onClick={handleHomeClick}
+          />
+        </menu>
       </div>
-      <div className="relative bg-white w-full mx-auto rounded-lg mt-10 shadow-md h-screen">
+      <div className="relative bg-white w-full mx-auto shadow-md">
         {/* 스크롤 가능한 영역 */}
-        <div className="overflow-y-auto h-full">
+        <div>
           <Image
             src={shoesImg}
             alt="shoesImg"
-            className="w-full h-[70vh] mt-4 rounded-t-lg object-cover"
+            className="w-full h-[70vh] object-cover"
           />
 
           {/* 브랜드 및 로고 */}
@@ -116,6 +118,20 @@ const ProductDetailPage: React.FC = () => {
               />
             </div>
           )}
+
+          {/* 사업자 정보 */}
+          <div className="bg-gray-100 text-gray-500 font-musinsa text-sm py-2">
+            <p className="font-semibold m-3">사업자 정보</p>
+            <div className="m-3">
+              <p>(주) 아디다스 | 대표자 : 홍길동</p>
+              <p>주소 : 서울특별시 성동구 아차산로 13길</p>
+              <p>사업자 등록 번호 : 000-11-22222(사업자 정보 확인)</p>
+            </div>
+            <p className="m-3">
+              당사는 고객님이 현금 결제한 금액에 대해 우리은행과 채무지급보증
+              계약을 체결하여 안전거래를 보장하고 있습니다
+            </p>
+          </div>
 
           {/* 승인/거부 버튼 */}
           <div className="flex justify-between px-4 mt-5">
