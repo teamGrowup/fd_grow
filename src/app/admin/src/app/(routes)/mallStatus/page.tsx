@@ -15,9 +15,10 @@ const ShoppingMallStatusPage: React.FC = () => {
   return (
     <>
       <LogoBar />
-      <div className="flex flex-col h-[calc(100vh-100px)]">
+      <div className="flex flex-col">
+        {" "}
         {/* 그래프 영역 */}
-        <div className="flex-grow overflow-y-auto">
+        <div>
           {category === "money" && (
             <>
               <div className="space-y-6">
@@ -70,9 +71,8 @@ const ShoppingMallStatusPage: React.FC = () => {
             </>
           )}
         </div>
-
         {/* 데이터 필터링 섹션 */}
-        <div className="w-full h-12 mx-auto flex justify-center items-center cursor-pointer bg-black rounded-lg text-center">
+        <div className="w-full h-12 mx-auto flex justify-center items-center cursor-pointer bg-black rounded-lg text-center mt-10">
           <DataFilterButton setCategory={setCategory} />
         </div>
       </div>
