@@ -52,8 +52,8 @@ const ReviewMonitoringPage: React.FC = () => {
   return (
     <>
       <LogoBar />
-      <div className="flex flex-col h-[calc(100vh-100px)]">
-        <div className="flex flex-col flex-grow gap-3 overflow-y-auto place-items-center">
+      <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col flex-grow gap-3 place-items-center">
           <ReviewBox id="1" />
           <ReviewBox id="2" />
           <ReviewBox id="3" />

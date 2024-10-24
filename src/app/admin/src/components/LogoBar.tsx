@@ -15,7 +15,7 @@ const LogoBar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="bg-black py-12 relative w-full flex">
+    <div className="bg-black py-12 sticky top-0 z-10 w-full flex">
       <Image
         src={Logo}
         alt="logo"

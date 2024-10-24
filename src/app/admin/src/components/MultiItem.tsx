@@ -47,11 +47,11 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
 
   return (
     <div
-      className="min-w-[10rem] min-h-[10rem] bg-gray-300 rounded-lg shadow-lg relative mb-10 transition-transform transform hover:scale-105"
+      className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative" // Flexbox 사용
       onClick={handleClick}
     >
       <div
-        className={`min-w-[4.25rem] min-h-[3rem] text-sm absolute z-10 ${backgroundColor} rounded-full text-white -top-5 -left-5 text-center py-1 shadow-md`}
+        className={`min-w-[4.25rem] min-h-[3rem] text-sm absolute ${backgroundColor} rounded-full text-white -top-5 text-center py-1 shadow-md`}
       >
         등록
         <br />
@@ -59,24 +59,30 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
         {isApproved === false && "거부됨"}
         {isApproved === null && "대기 중"}
       </div>
-      <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center text-lg font-sans">
+      <p className="flex-grow flex items-center justify-center font-bold text-lg font-sans">
         {categoryName} {id}
       </p>
       {isApproved === null && (
-        <>
+        <div className="flex justify-between absolute bottom-2 left-2 right-2">
           <Button
-            className="absolute bg-green-500 text-white rounded-lg bottom-2 left-2 min-w-[3rem] min-h-[1.75rem] max-w-[3rem] max-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
-            onClick={() => handleAction("approve")}
+            className="bg-green-500 text-white rounded-lg min-w-[3rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
+            onClick={(e) => {
+              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              handleAction("approve");
+            }}
           >
             허가
           </Button>
           <Button
-            className="absolute bg-red-500 text-white rounded-lg bottom-2 right-2 min-w-[3rem] min-h-[1.75rem] max-w-[3rem] max-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-red-700"
-            onClick={() => handleAction("deny")}
+            className="bg-red-500 text-white rounded-lg min-w-[3rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-red-700"
+            onClick={(e) => {
+              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              handleAction("deny");
+            }}
           >
             거부
           </Button>
-        </>
+        </div>
       )}
     </div>
   );

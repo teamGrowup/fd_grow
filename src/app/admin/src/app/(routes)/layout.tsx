@@ -12,7 +12,7 @@ export default function RootLayout({
 
   return (
     <>
-      <div className="max-w-xl mx-auto bg-white min-h-screen flex flex-col border border-gray-200">
+      <div className="max-w-xl mx-auto bg-white h-full flex flex-col border border-gray-200">
         {nowLoading ? <LoadingPage /> : children}
       </div>
     </>

@@ -38,8 +38,8 @@ const BrandEnrollmentRequestPage: React.FC = () => {
   return (
     <>
       <LogoBar />
-      <div className="flex flex-col h-[calc(100vh-100px)]">
-        <div className="flex-grow overflow-y-auto grid grid-cols-2 place-items-center pt-7">
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-grow grid grid-cols-2 mt-8 gap-4">
           {conditionalItems().map((item) => (
             <MultiItem
               key={item.id}

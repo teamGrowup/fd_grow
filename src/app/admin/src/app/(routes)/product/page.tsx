@@ -2,10 +2,8 @@
 
 import LogoBar from "../../../components/LogoBar";
 import FooterBar from "../../../components/FooterBar";
-
 import MultiItem from "../../../components/MultiItem";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import useGetRequest from "../../../hooks/useGetRequest";
 
 const items = [
@@ -18,13 +16,14 @@ const items = [
   { id: "7", isApproved: false },
   { id: "8", isApproved: false },
   { id: "9", isApproved: false },
+  { id: "10", isApproved: false },
+  { id: "11", isApproved: false },
 ];
 
 const ProductEnrollmentRequestPage: React.FC = () => {
-  //조건에 맞게 상품을 불러오는 로직 작성
   const [scope, setScope] = useState<string>("all");
 
-  const { getRequest } = useGetRequest("product-requests"); // 뒤에 파라미터를 달리 하여 원하는 조건의 상품만 불러옴
+  const { getRequest } = useGetRequest("product-requests");
 
   const conditionalItems = () => {
     if (scope === "true") {
@@ -41,8 +40,12 @@ const ProductEnrollmentRequestPage: React.FC = () => {
   return (
     <>
       <LogoBar />
-      <div className="flex flex-col h-[calc(100vh-100px)]">
-        <div className="flex-grow grid grid-cols-2 place-items-center overflow-y-auto pt-7">
+      <div className="flex flex-col min-h-screen">
+        {" "}
+        {/* 전체 화면 높이 설정 */}
+        <div className="flex-grow grid grid-cols-2 mt-8 gap-4">
+          {" "}
+          {/* MultiItem 영역 */}
           {conditionalItems().map((item) => (
             <MultiItem
               key={item.id}
