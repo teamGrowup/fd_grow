@@ -47,7 +47,7 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
 
   return (
     <div
-      className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative" // Flexbox 사용
+      className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative ml-7 mr-7" // Flexbox 사용
       onClick={handleClick}
     >
       <div
