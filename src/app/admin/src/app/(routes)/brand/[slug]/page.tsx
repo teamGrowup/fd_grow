@@ -57,7 +57,7 @@ const BrandDetail: React.FC = () => {
           <Image
             src={adidasDetail1}
             alt="shoesImg"
-            className="w-full h-[80vh] object-cover"
+            className="w-full h-[80vh] object-contain"
           />
 
           {/* 브랜드 및 로고 */}

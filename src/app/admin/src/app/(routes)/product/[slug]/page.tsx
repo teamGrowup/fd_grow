@@ -62,7 +62,7 @@ const ProductDetailPage: React.FC = () => {
           />
         </menu>
       </div>
-      <div className="relative bg-white w-full mx-auto shadow-md">
+      <div className="relative w-full mx-auto shadow-md bg-gray-100">
         {/* 스크롤 가능한 영역 */}
         <div>
           <Image
