@@ -40,7 +40,7 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
   };
 
   return (
-    <div className="w-full max-w-lg min-h-[10rem] bg-white border border-gray-200 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden">
+    <div className="w-full max-w-lg min-h-[10rem] bg-white border border-gray-200 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden transition-transform transform hover:scale-105">
       <div className="w-1/3 flex justify-center items-center p-4">
         <Image
           src={clothesImg}
