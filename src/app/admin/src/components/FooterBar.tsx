@@ -20,53 +20,28 @@ const FooterBar: React.FC<FooterPropsType> = ({
 
   return (
     <footer
-      className={`border-t border-gray-300 ${className} flex items-center sticky bottom-0 z-10 bg-white`}
+      className={`border-t border-gray-300 ${className} flex items-center sticky bottom-0 z-10 bg-white shadow-md`}
     >
-      <ul className="flex justify-between items-center gap-10 py-2 font-musinsa w-full flex-nowrap">
-        <li className="text-center flex-grow">
-          <button
-            type="button"
-            className={`text-lg font-bold font-musinsa ${
-              scope === "all" ? "text-black" : "text-gray-400"
-            } hover:text-black w-full`}
-            onClick={() => setScope("all")}
-          >
-            전체
-          </button>
-        </li>
-        <li className="text-center flex-grow">
-          <button
-            type="button"
-            className={`text-lg font-bold font-musinsa ${
-              scope === "true" ? "text-black" : "text-gray-400"
-            } hover:text-black w-full`}
-            onClick={() => setScope("true")}
-          >
-            허가 완료
-          </button>
-        </li>
-        <li className="text-center flex-grow">
-          <button
-            type="button"
-            className={`text-lg font-bold font-musinsa ${
-              scope === "wait" ? "text-black" : "text-gray-400"
-            } hover:text-black w-full`}
-            onClick={() => setScope("wait")}
-          >
-            허가 대기
-          </button>
-        </li>
-        <li className="text-center flex-grow">
-          <button
-            type="button"
-            className={`text-lg font-bold font-musinsa ${
-              scope === "false" ? "text-black" : "text-gray-400"
-            } hover:text-black w-full`}
-            onClick={() => setScope("false")}
-          >
-            미허가
-          </button>
-        </li>
+      <ul className="flex justify-between items-center gap-5 py-3 font-musinsa w-full flex-nowrap">
+        {["all", "true", "wait", "false"].map((item) => (
+          <li key={item} className="text-center flex-grow">
+            <button
+              type="button"
+              className={`text-lg font-bold transition-colors duration-200 ${
+                scope === item ? "bg-gray-200 text-black" : "text-gray-400"
+              } hover:bg-gray-300 w-full py-2 rounded-lg`}
+              onClick={() => setScope(item)}
+            >
+              {item === "all"
+                ? "전체"
+                : item === "true"
+                ? "허가 완료"
+                : item === "wait"
+                ? "허가 대기"
+                : "미허가"}
+            </button>
+          </li>
+        ))}
       </ul>
     </footer>
   );

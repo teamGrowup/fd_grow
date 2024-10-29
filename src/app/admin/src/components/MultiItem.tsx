@@ -4,14 +4,23 @@ import React from "react";
 import { Button } from "@/packages/ui/src";
 import { useRouter } from "next/navigation";
 import useRequestAction from "../hooks/useRequestAction";
+import Image from "next/image";
+
+import adidasLogo from "@/app/admin/src/assets/adidasLogo.png";
 
 interface ItemPropsType {
   category: string;
   id: string;
   isApproved: boolean | null;
+  imageUrl: string;
 }
 
-const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
+const MultiItem: React.FC<ItemPropsType> = ({
+  category,
+  id,
+  isApproved,
+  imageUrl,
+}) => {
   const router = useRouter();
   const { handleAction } = useRequestAction(`${category}-requests`, id);
 
@@ -50,6 +59,11 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
       className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative ml-7 mr-7" // Flexbox 사용
       onClick={handleClick}
     >
+      <Image
+        src={adidasLogo}
+        alt={`${categoryName} 이미지`} // 이미지 alt 속성
+        className="object-cover w-full h-32" // 이미지 스타일
+      />
       <div
         className={`min-w-[4.25rem] min-h-[3rem] text-sm absolute ${backgroundColor} rounded-full text-white -top-5 text-center py-1 shadow-md`}
       >
@@ -59,13 +73,13 @@ const MultiItem: React.FC<ItemPropsType> = ({ category, id, isApproved }) => {
         {isApproved === false && "거부됨"}
         {isApproved === null && "대기 중"}
       </div>
-      <p className="flex-grow flex items-center justify-center font-bold text-lg font-sans">
+      {/* <p className="flex-grow flex items-center justify-center font-bold text-lg font-sans">
         {categoryName} {id}
-      </p>
+      </p> */}
       {isApproved === null && (
         <div className="flex justify-between absolute bottom-2 left-2 right-2">
           <Button
-            className="bg-green-500 text-white rounded-lg min-w-[3rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
+            className="bg-green-500 text-white rounded-lg min-w-[2rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
             onClick={(e) => {
               e.stopPropagation(); // 클릭 이벤트 전파 방지
               handleAction("approve");
