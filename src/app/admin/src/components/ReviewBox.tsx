@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "@/packages/ui/src";
 import { Heart } from "lucide-react";
+import Image from "next/image";
+import clothesImg from "@/app/admin/src/assets/clothes.jpg";
 
 interface ReviewBoxProps {
   id: string;
@@ -16,7 +18,7 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
       });
 
       if (!fetchResponse.ok) {
-        throw new Error("Fail to delete review");
+        throw new Error("Failed to delete review");
       }
 
       window.alert("리뷰가 성공적으로 삭제되었습니다");
@@ -27,34 +29,49 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ id }) => {
   };
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const deleteCheck = window.prompt("리뷰를 삭제할까요?");
+    const deleteCheck = window.confirm("리뷰를 삭제할까요?");
     if (deleteCheck) {
       await DeleteReview();
     }
   };
 
-  const handleClickHeart = async () => {
+  const handleClickHeart = () => {
     setHeartState((prevState) => !prevState);
-  }; //수정!
+  };
 
   return (
-    <div className="w-full min-w-3/4 min-h-[8rem] bg-white border border-gray-300 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden">
-      <div className="w-1/3 flex justify-center items-center">
-        <div className="bg-gray-200 w-[58px] h-[50px] flex justify-center items-center rounded-md">
-          <p className="text-black text-sm">상품사진</p>
-        </div>
+    <div className="w-full max-w-lg min-h-[10rem] bg-white border border-gray-200 shadow-lg rounded-lg flex mx-auto my-4 overflow-hidden">
+      <div className="w-1/3 flex justify-center items-center p-4">
+        <Image
+          src={clothesImg}
+          alt="clothes image"
+          width={150}
+          height={150}
+          className="rounded-md"
+        />
       </div>
-      <div className="bg-black w-2/3 h-full flex items-center justify-center rounded-r-lg">
-        <p className="text-white text-lg font-semibold">후기</p>
+      <div className="flex-1 flex flex-col justify-center p-4">
+        <p className="font-semibold text-gray-800">미나브</p>
+        <p className="text-sm text-gray-600 mt-1">
+          소프트 코튼 케이블 카라 니트 [그린]
+        </p>
+        <p className="text-sm text-gray-500 mt-7">
+          깔끔하니 입기 너무 좋습니다!!
+        </p>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className="flex items-center justify-center w-[89px] h-[29px]">
-          <p className="text-black text-center flex items-center gap-1">
-            <Heart size={"18px"} className="text-red-500" />0
-          </p>
+      <div className="flex flex-col justify-between items-center p-4">
+        <div className="flex items-center space-x-2">
+          <Heart
+            size={25}
+            className={`cursor-pointer ${
+              heartState ? "text-red-500" : "text-gray-400"
+            }`}
+            onClick={handleClickHeart}
+          />
+          <span className="text-gray-600">0</span>
         </div>
         <Button
-          className="bg-black text-white rounded-full w-[60px] h-[28px] hover:bg-gray-800 transition-colors -translate-x-2"
+          className="bg-black text-white rounded-full w-20 h-8 hover:bg-gray-800 transition-colors mt-2"
           onClick={handleDeleteClick}
         >
           삭제
