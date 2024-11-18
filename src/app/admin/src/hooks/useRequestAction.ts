@@ -7,7 +7,7 @@ const useRequestAction = (resourceType: string, id?: string) => {
         async (actionType: ActionType): Promise<void> => { // 반환 타입을 Promise<void>로 명시
             try {
                 const response = await fetch(
-                    `http://backend/admin/${resourceType}/${id ?? ''}/${actionType}`,
+                    `http://taegnues.store:12324/admin/${resourceType}/${id ?? ''}/${actionType}`,
                     {
                         method: "PATCH",
                     }

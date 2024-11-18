@@ -20,7 +20,7 @@ export const useAuthApi = () => {
   const authFetch = useAuthenticatedFetch();
 
   const login = async (email: string, password: string): Promise<LoginResponse> => {
-    const response = await fetch('https://your-backend-api.com/login', {
+    const response = await fetch('http://taegnues.store:12324/admins/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -31,39 +31,39 @@ export const useAuthApi = () => {
     return response.json();
   };
 
-  const logout = async () => {
-    return authFetch('https://your-backend-api.com/logout', { method: 'POST' });
-  };
+  // const logout = async () => {
+  //   return authFetch('https://your-backend-api.com/logout', { method: 'POST' });
+  // };
 
-  const searchKakaoAddress = async (query: string): Promise<string[]> => {
+  // const searchKakaoAddress = async (query: string): Promise<string[]> => {
 
-    console.log("check query", query);
-    console.log("check secret key", process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY);
-    const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(query)}&analyze_type=similar`;
-  
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`
-        }
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
+  //   console.log("check query", query);
+  //   console.log("check secret key", process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY);
+  //   const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(query)}&analyze_type=similar`;
 
-      console.log("from api check data", data);
-      return data.documents.map((doc: KakaoAddressDocument) => doc.address_name);
-    } catch (error) {
-      console.error('Error fetching address data:', error);
-      return [];
-    }
-  };
-  
+  //   try {
+  //     const response = await fetch(url, {
+  //       headers: {
+  //         'Authorization': `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`
+  //       }
+  //     });
 
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+
+  //     const data = await response.json();
+
+  //     console.log("from api check data", data);
+  //     return data.documents.map((doc: KakaoAddressDocument) => doc.address_name);
+  //   } catch (error) {
+  //     console.error('Error fetching address data:', error);
+  //     return [];
+  //   }
+  // };
 
 
-  return { login, logout, searchKakaoAddress };
+
+
+  return { login };
 };

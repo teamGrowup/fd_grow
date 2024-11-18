@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input } from "@/packages/ui/src/index";
-import { useAuthApi } from "../../../../../buyer/src/api/auth";
+import { useAuthApi } from "../../../api/auth";
 import { useAuthStore } from "../../../../../buyer/src/lib/store";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai"; // 아이콘 추가
 
@@ -21,6 +21,7 @@ function ManagerLoginPage() {
       setAccessToken(data.data.accessToken);
       router.push("/main");
     } catch (error) {
+      window.alert("로그인에 실패했습니다.");
       console.error("Login error:", error);
     }
   };

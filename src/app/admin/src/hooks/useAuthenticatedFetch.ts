@@ -1,13 +1,10 @@
 import { useAuthStore } from '../lib/store';
+import { useEffect, useState } from 'react';
 
 export const useAuthenticatedFetch = () => {
   const accessToken = useAuthStore(state => state.accessToken);
 
   const authFetch = async (url: string, options: RequestInit = {}) => {
-    if (!accessToken) {
-      throw new Error('No access token available');
-    }
-
     const headers = new Headers(options.headers);
     headers.set('Authorization', `Bearer ${accessToken}`);
 
@@ -21,5 +18,5 @@ export const useAuthenticatedFetch = () => {
     return response;
   };
 
-  return authFetch;
+  return { authFetch };
 };

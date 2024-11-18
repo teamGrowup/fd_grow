@@ -11,8 +11,8 @@ import adidasLogo from "@/app/admin/src/assets/adidasLogo.png";
 interface ItemPropsType {
   category: string;
   id: string;
-  isApproved: boolean | null;
-  imageUrl: string;
+  isApproved: string | null;
+  imageUrl?: string;
 }
 
 const MultiItem: React.FC<ItemPropsType> = ({
@@ -25,9 +25,9 @@ const MultiItem: React.FC<ItemPropsType> = ({
   const { handleAction } = useRequestAction(`${category}-requests`, id);
 
   const backgroundColor =
-    isApproved === true
+    isApproved === "APPROVED"
       ? "bg-gradient-to-r from-green-400 to-green-600"
-      : isApproved === false
+      : isApproved === "DENIED"
       ? "bg-gradient-to-r from-red-500 to-red-700"
       : "bg-gradient-to-r from-yellow-500 to-yellow-600";
 
@@ -69,14 +69,14 @@ const MultiItem: React.FC<ItemPropsType> = ({
       >
         등록
         <br />
-        {isApproved === true && "허가됨"}
-        {isApproved === false && "거부됨"}
-        {isApproved === null && "대기 중"}
+        {isApproved === "APPROVED" && "허가됨"}
+        {isApproved === "DENIED" && "거부됨"}
+        {isApproved === "PENDING" && "대기 중"}
       </div>
       {/* <p className="flex-grow flex items-center justify-center font-bold text-lg font-sans">
         {categoryName} {id}
       </p> */}
-      {isApproved === null && (
+      {isApproved === 'PENDING' && (
         <div className="flex justify-between absolute bottom-2 left-2 right-2">
           <Button
             className="bg-green-500 text-white rounded-lg min-w-[2rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"

@@ -7,7 +7,7 @@ interface GetRequestOptions {
 const useGetRequest = (resourceType: string, state?: statePropType, options?: GetRequestOptions) => { // 상품 혹은 브랜드를 상태에 따라 다르게 get 할 수 있는 훅
     const getRequest = async () => {
         try {
-            let url = `http://backend-api/admins/${resourceType}`;
+            let url = `http://taegnues.store:12324/admins/${resourceType}`;
 
             if (resourceType === 'brand') {
                 const authorityStatus = state ? state.toUpperCase() : '';
