@@ -4,13 +4,14 @@ import React from "react";
 import { Button } from "@/packages/ui/src";
 import { useRouter } from "next/navigation";
 import useRequestAction from "../hooks/useRequestAction";
+import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
 import Image from "next/image";
 
 import adidasLogo from "@/app/admin/src/assets/adidasLogo.png";
 
 interface ItemPropsType {
   category: string;
-  id: string;
+  id: number;
   isApproved: string | null;
   imageUrl?: string;
 }
@@ -22,7 +23,7 @@ const MultiItem: React.FC<ItemPropsType> = ({
   imageUrl,
 }) => {
   const router = useRouter();
-  const { handleAction } = useRequestAction(`${category}-requests`, id);
+  const { authFetch } = useAuthenticatedFetch();
 
   const backgroundColor =
     isApproved === "APPROVED"
@@ -54,6 +55,38 @@ const MultiItem: React.FC<ItemPropsType> = ({
     }
   };
 
+  const handleChangeApprove = async () => {
+    const response = await authFetch(
+      `http://taegnues.store:12324/admins/product-requests/${id}/approve`,
+      {
+        method: "PATCH",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("failed to fetch data");
+    }
+
+    const data = await response.json();
+    console.log(data.message);
+  };
+
+  const handleChangeDeny = async () => {
+    const response = await authFetch(
+      `http://taegnues.store:12324/admins/product-requests/${id}/deny`,
+      {
+        method: "PATCH",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("failed to fetch data");
+    }
+
+    const data = await response.json();
+    console.log(data.message);
+  };
+
   return (
     <div
       className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative ml-7 mr-7" // Flexbox 사용
@@ -76,23 +109,17 @@ const MultiItem: React.FC<ItemPropsType> = ({
       {/* <p className="flex-grow flex items-center justify-center font-bold text-lg font-sans">
         {categoryName} {id}
       </p> */}
-      {isApproved === 'PENDING' && (
+      {isApproved === "PENDING" && (
         <div className="flex justify-between absolute bottom-2 left-2 right-2">
           <Button
             className="bg-green-500 text-white rounded-lg min-w-[2rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-green-700"
-            onClick={(e) => {
-              e.stopPropagation(); // 클릭 이벤트 전파 방지
-              handleAction("approve");
-            }}
+            onClick={handleChangeApprove}
           >
             허가
           </Button>
           <Button
             className="bg-red-500 text-white rounded-lg min-w-[3rem] min-h-[1.75rem] flex items-center justify-center shadow-md hover:bg-red-700"
-            onClick={(e) => {
-              e.stopPropagation(); // 클릭 이벤트 전파 방지
-              handleAction("deny");
-            }}
+            onClick={handleChangeDeny}
           >
             거부
           </Button>

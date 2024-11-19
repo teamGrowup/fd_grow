@@ -82,7 +82,7 @@ const ProductEnrollmentRequestPage: React.FC = () => {
                 <MultiItem
                   key={item.productId}
                   category="product"
-                  id={String(item.productId)}
+                  id={item.productId}
                   isApproved={item.authorityStatus}
                 />
               ))}
