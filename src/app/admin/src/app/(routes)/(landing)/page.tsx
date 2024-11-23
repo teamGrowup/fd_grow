@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input } from "@/packages/ui/src/index";
 import { useAuthApi } from "../../../api/auth";
-import { useAuthStore } from "../../../../../buyer/src/lib/store";
+import { useAuthStore } from "../../../lib/store";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai"; // 아이콘 추가
 
 function ManagerLoginPage() {
   const router = useRouter();
   const { login } = useAuthApi();
-  const { setAccessToken } = useAuthStore();
+  const { setAccessToken, setRefreshToken } = useAuthStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +19,7 @@ function ManagerLoginPage() {
     try {
       const data = await login(email, password);
       setAccessToken(data.data.accessToken);
+      setRefreshToken(data.data.refreshToken);
       router.push("/main");
     } catch (error) {
       window.alert("로그인에 실패했습니다.");

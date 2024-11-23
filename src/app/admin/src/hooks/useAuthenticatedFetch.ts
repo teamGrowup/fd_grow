@@ -36,7 +36,7 @@ import { useEffect, useState } from 'react';
 
 export const useAuthenticatedFetch = () => {
   const accessToken = useAuthStore(state => state.accessToken);
-  console.log(accessToken + '있어요!!')
+  // console.log(accessToken + '있어요!!')
 
   const authFetch = async (url: string, options: RequestInit = {}) => {
     const headers = new Headers(options.headers);

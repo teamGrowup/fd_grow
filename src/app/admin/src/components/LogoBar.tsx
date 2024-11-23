@@ -10,9 +10,21 @@ import { ChartNoAxesCombined } from "lucide-react";
 import { PackageSearch } from "lucide-react";
 import { Store } from "lucide-react";
 import { Monitor } from "lucide-react";
+import { MdLogout } from "react-icons/md";
+import { useAuthStore } from "../lib/store";
 
 const LogoBar: React.FC = () => {
   const router = useRouter();
+  const { accessToken, setAccessToken, setRefreshToken, logout } =
+    useAuthStore();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    logout();
+    localStorage.removeItem("auth-storage");
+    router.push("/");
+  };
 
   return (
     <div className="bg-black py-12 sticky top-0 z-10 w-full flex">
@@ -47,6 +59,11 @@ const LogoBar: React.FC = () => {
         >
           <Monitor className="w-8 h-8" />
         </li>
+        {accessToken && (
+          <li className="text-white cursor-pointer" onClick={handleLogout}>
+            <MdLogout className="w-8 h-8" />
+          </li>
+        )}
       </menu>
     </div>
   );
