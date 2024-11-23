@@ -55,36 +55,37 @@ const MultiItem: React.FC<ItemPropsType> = ({
     }
   };
 
+  const approveUrl = `http://taegnues.store:12324/admins/${category}-requests/${id}/approve`;
+  const denyUrl = `http://taegnues.store:12324/admins/${category}-requests/${id}/deny`;
+
   const handleChangeApprove = async () => {
-    const response = await authFetch(
-      `http://taegnues.store:12324/admins/product-requests/${id}/approve`,
-      {
-        method: "PATCH",
-      }
-    );
+    console.log(approveUrl)
+    const response = await authFetch(approveUrl, {
+      method: "PATCH",
+    });
 
     if (!response.ok) {
       throw new Error("failed to fetch data");
     }
 
     const data = await response.json();
-    console.log(data.message);
+    console.log("변경 성공!");
+    console.log(data);
   };
 
   const handleChangeDeny = async () => {
-    const response = await authFetch(
-      `http://taegnues.store:12324/admins/product-requests/${id}/deny`,
-      {
-        method: "PATCH",
-      }
-    );
+    console.log(denyUrl)
+    const response = await authFetch(denyUrl, {
+      method: "PATCH",
+    });
 
     if (!response.ok) {
       throw new Error("failed to fetch data");
     }
 
     const data = await response.json();
-    console.log(data.message);
+    console.log("변경 성공!");
+    console.log(data);
   };
 
   return (

@@ -21,7 +21,6 @@ const BrandDetail: React.FC = () => {
     if (typeof window !== "undefined") {
       const queryParams = new URLSearchParams(window.location.search);
       const approvedStatus = queryParams.get("isApproved");
-      console.log(approvedStatus);
       setIsApproved(approvedStatus);
     }
   }, []);
@@ -90,7 +89,7 @@ const BrandDetail: React.FC = () => {
 
           {/* 승인/거부 버튼 */}
           <div className="flex justify-between px-4 mt-5">
-            {isApproved === "null" && (
+            {isApproved === "PENDING" && (
               <>
                 <Button className="text-white py-2 hover:bg-green-700 transition-colors w-full mr-2 shadow-md flex items-center justify-center border-2 border-gray-200">
                   <MdCheckCircle className="mr-2" />

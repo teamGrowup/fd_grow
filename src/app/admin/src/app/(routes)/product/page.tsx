@@ -40,8 +40,6 @@ const ProductEnrollmentRequestPage: React.FC = () => {
         }
 
         const resultData = await response.json();
-        console.log("Success to fetch data!!");
-        console.log(resultData);
         setProductsData(resultData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
