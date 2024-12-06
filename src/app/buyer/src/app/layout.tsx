@@ -25,10 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
+        id="commonLayoutContainer"
         className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, 
-          // "max-w-md mx-auto bg-white min-h-screen flex flex-col border border-gray-200 "
+          // "max-w-[600px] mx-auto bg-white min-h-screen flex flex-col border border-gray-200 "
+          // "max-w-[600px] mx-auto bg-white min-h-screen flex flex-col relative pb-14"
         )}
       >
         {children}

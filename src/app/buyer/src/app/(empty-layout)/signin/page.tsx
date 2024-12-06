@@ -5,10 +5,7 @@ export default function LoginScreen() {
   return (
     <div className="px-3">
       <h2 className="text-2xl font-bold text-center my-[60px]">로그인</h2>
-      
       <LoginForm />
-      
-      
       <div className="my-6 text-center text-sm text-gray-500 relative">
         <span className="bg-white px-2 relative z-10">Or sign in with</span>
         <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-300 -z-1"></div>

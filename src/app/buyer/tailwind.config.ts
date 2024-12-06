@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			screens: {
+        'min-600': '600px',
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -82,6 +85,7 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
+	
 };
 export default config;
