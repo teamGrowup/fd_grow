@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "../../lib/store";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { BRAND_PATH, CART_PATH, CATEGORY_PATH, FAVORITE_PATH, MAIN_PATH, PRODUCT_PATH, SEARCH_KEYWORD_PATH, SEARCH_PATH } from "../../constant";
+import { BRAND_PATH, CART_PATH, CATEGORY_PATH, FAVORITE_PATH, MAIN_PATH, PRODUCT_PATH, SEARCH_KEYWORD_PATH, SEARCH_PATH, SIGNIN_PATH, SIGNUP_PATH } from "../../constant";
 import { cn } from "@/packages/utils/src";
 
 //          component: Header 컴포넌트          //
@@ -26,7 +26,10 @@ export default function Header(){
   const isCategoryPage = pathname === CATEGORY_PATH();
   const isFavoritePage = pathname === FAVORITE_PATH();
   const isCartPage = pathname === CART_PATH();
+  console.log(isCartPage);
   const isBrandPage = pathname === BRAND_PATH();
+  const isSigninPage = pathname === SIGNIN_PATH();
+  const isSignupPage = pathname.startsWith(SIGNUP_PATH());
 
   //          event handler: 로고 클릭 이벤트 처리          //
   const onLogoClickHandler = () => {
@@ -92,7 +95,7 @@ export default function Header(){
   
   //          render: Header 컴포넌트 렌더링          //
   return(
-    <header className={cn("flex  w-full min-h-12", isMainPage ? "absolute border-b-[0.5px] border-[#7d7d7d] bg-[#ffffff00] z-10 mix-blend-difference text-white" : "bg-[#f5f5f5] text-gray-500 sticky top-0 z-30")}>
+    <header className={cn("flex w-full min-h-12 z-30", (isMainPage || isSigninPage || isSignupPage) ? "absolute bg-[#ffffff00] text-white" : "bg-[#f5f5f5] text-gray-500 sticky top-0 ", isMainPage && "mix-blend-difference border-b-[0.5px] border-[#7d7d7d]")}>
         <div className="flex items-center justify-between px-4 py-2 w-full relative">
           <div className="flex items-center gap-4 mr-4 ">
             {isMainPage ?
@@ -122,8 +125,8 @@ export default function Header(){
 
           <div className="flex items-center">
             {(isProductDeatilPage) && <Home className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/')}/>}
-            {( !isSearchResultPage) && <Search className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/search')} />}
-            {(!isSearchPage && !isCartPage) && <ShoppingBag className="w-6 h-6  cursor-pointer ml-4" onClick={onCartClickHandler} />}
+            {( !isSearchResultPage && !isSigninPage && !isSignupPage) && <Search className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/search')} />}
+            {(!isSearchPage && !isCartPage && !isSigninPage && !isSignupPage) && <ShoppingBag className="w-6 h-6  cursor-pointer ml-4" onClick={onCartClickHandler} />}
           </div>
           
         </div>

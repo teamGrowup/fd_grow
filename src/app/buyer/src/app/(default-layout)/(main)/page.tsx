@@ -8,16 +8,29 @@ import event_image1 from '../../../public/event-sample.png';
 import event_image2 from '../../../public/event-sample2.png';
 import event_image3 from '../../../public/event-sample3.png';
 import event_image5 from '../../../public/event-sample5.jpg';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ProductCard from "../../../components/_common/ProcuctCard";
 import { cn } from "@/lib/utils";
+import { DragSlider } from "../../../components/_common/DragSlider";
+import { Suspense, useEffect, useRef, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { Swiper as SwiperType } from "swiper/types";
 
 export default function Component() {
-
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const upRef = useRef(null);
+  const downRef = useRef(null);
   // const accessToken = useAuthStore(state => state.accessToken);
   
 
@@ -30,6 +43,8 @@ export default function Component() {
   // }, [accessToken, router]);
 
   // if (!accessToken) return null;
+  
+ 
   
   return (
     <div className="bg-[#F5F5F5] relative w-full">
@@ -106,42 +121,33 @@ export default function Component() {
         </div>
         
         <div className="flex flex-col bg-black text-white mb-4">
-          <div className="flex h-[48px] px-4 items-center justify-between gap-12">
-            <p>Brand Ranking</p>
-            <div className="flex-1 flex items-center h-full border-b">1 비슬로우</div>
+          <div className="flex h-12 px-4 items-center justify-between gap-12">
+            <span>Brand Ranking</span>
+            <div className="flex-1 h-12 flex items-center border-b">
+              <Swiper direction="vertical" loop={true} spaceBetween={0} slidesPerView={1} allowTouchMove={false}  onBeforeInit={(swipper) => setSwiper(swipper)} className="h-full w-full overflow-hidden">
+                <SwiperSlide className="h-full flex py-3">
+                  <span className="" onClick={() => console.log('비슬로우 이동')}>1 비슬로우</span>
+                </SwiperSlide>
+                <SwiperSlide className="h-full flex py-3">
+                  <span className="h-full w-full">2 홀리선</span>
+                </SwiperSlide>
+                <SwiperSlide className="h-full flex py-3">
+                  <span className="h-full w-full">3 홀리선</span>
+                </SwiperSlide>
+              </Swiper>
+              <div className="absolute right-4 flex">
+                <button  ref={upRef} className="flex items-center justify-center w-9 h-9 z-50" onClick={() => swiper?.slidePrev()} >
+                  <ChevronUp />
+                </button>
+                <button className="flex items-center justify-center w-9 h-9 z-50" ref={downRef} onClick={() => swiper?.slideNext()}>
+                  <ChevronDown />
+                </button>
+              </div>
+            </div>
+                
           </div>
           <div className="flex-1 py-4 whitespace-nowrap pl-4">
-            {/* <div className="flex justify-start mb-2 overflow-hidden gap-4">
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800 ">시그니처 특가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-            </div>
-            <div className="flex justify-start mb-2 overflow-hidden gap-4">
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">시그니처 특가</div>
-            </div> */}
-            <div className="flex justify-start mb-2 overflow-hidden gap-4">
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800 ">상의</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">아우터</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">바지</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">원피스/스커트</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">신발</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">가방</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">패션 소품</div>
-            </div>
-            <div className="flex justify-start mb-2 overflow-hidden gap-4">
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">언더웨어</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">뷰티</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">스포츠/레저</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">라이프</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">키즈</div>
-              <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">브랜드</div>
-            </div>
+            <DragSlider />
           </div>
         </div>
         

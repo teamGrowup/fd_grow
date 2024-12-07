@@ -1,15 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
@@ -46,10 +44,10 @@ export function Combobox() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="none"
+          variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="text-sm h-8 text-gray-500"
+          className="text-sm h-8 text-gray-500 bg-transparent border-none"
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label

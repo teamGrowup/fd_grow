@@ -10,7 +10,7 @@ export default function DefaultLayout({
 }>) {
   return (
     <>
-      <div id="container" className="max-w-[600px] mx-auto bg-[#f5f5f5] min-h-screen flex flex-col relative pb-14">
+      <div id="commonLayoutContainer" className="max-w-[600px] mx-auto bg-[#f5f5f5] min-h-screen flex flex-col relative pb-14">
         <Header />
         {children}
         <Footer />

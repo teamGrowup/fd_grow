@@ -6,3 +6,5 @@ export const CATEGORY_PATH = () => '/category';
 export const FAVORITE_PATH = () => '/favorite';
 export const CART_PATH = () => '/cart';
 export const BRAND_PATH = () => '/brand';
+export const SIGNUP_PATH = () => '/signup';
+export const SIGNIN_PATH = () => '/signin';

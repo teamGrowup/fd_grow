@@ -1,12 +1,11 @@
 'use client';
 
 import { Badge } from "@/components/ui/badge"
-import { ArrowDownRight, ArrowUpRight, X } from "lucide-react"
+import { X } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useRef } from "react"
 import { SEARCH_KEYWORD_PATH } from "../../../constant";
 
-export default function search() {
+export default function Search() {
   const router = useRouter();
 
   return(

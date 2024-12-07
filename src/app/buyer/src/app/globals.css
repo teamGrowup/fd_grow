@@ -128,7 +128,7 @@ html body[data-scroll-locked] {
   margin-right: 0 !important;
 }
 
-.h-\[calc\(100\%\-3rem\)\] {
-  height: calc(100% - 3rem);
+.h-\[calc\(100\%\-6\.5rem\)\] {
+  height: calc(100% - 6.5rem);
 }
 

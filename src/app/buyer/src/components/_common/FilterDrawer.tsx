@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Minus, Plus, SlidersHorizontal } from "lucide-react"
+import { SlidersHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,12 +18,6 @@ import {
 
 
 export function FilterDrawer() {
-  const [goal, setGoal] = React.useState(350)
-
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-  }
-
   return (
     <Drawer>
       <DrawerTrigger asChild>
