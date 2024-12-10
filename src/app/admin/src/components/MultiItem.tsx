@@ -53,6 +53,7 @@ const MultiItem = forwardRef<HTMLDivElement, ItemPropsType>(
 
         const data = await response.json();
         console.log("변경 성공:", data);
+        window.alert("허가 상태를 변경 완료했습니다! 새로고침 시 적용됩니다!");
       } catch (error) {
         console.error("Error updating status:", error);
       }
@@ -60,6 +61,7 @@ const MultiItem = forwardRef<HTMLDivElement, ItemPropsType>(
 
     return (
       <div
+        onClick={() => router.push(`/product/${id}`)}
         ref={ref}
         className="h-36 bg-gray-300 rounded-lg shadow-lg mb-10 transition-transform transform hover:scale-105 flex flex-col relative ml-7 mr-7"
       >
