@@ -24,42 +24,45 @@ const ProductEnrollmentRequestPage: React.FC = () => {
   const trigger = useRef<HTMLDivElement | null>(null); // trigger ref 타입을 HTMLDivElement | null로 명시
 
   useEffect(() => {
-    const fetchData = async () => {
+    // scope 변경 시 페이지 번호 초기화 및 초기 데이터 로드
+    const fetchInitialData = async () => {
+      setPageNo(0); // 페이지 번호 초기화
+      setIsLastPage(false); // 마지막 페이지 상태 초기화
+      setIsLoading(true); // 로딩 상태 설정
+
       let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
       if (scope === "true") baseUrl += `/approved`;
       else if (scope === "wait") baseUrl += `/pending`;
       else if (scope === "false") baseUrl += `/denied`;
 
-      const pageOption = scope === "all" ? "" : `?pageNo=0`;
-
-      const fetchUrl = baseUrl + pageOption;
+      const fetchUrl = baseUrl + `?pageNo=0`;
       const response = await authFetch(fetchUrl, {
         method: "GET",
-        headers: {
-          "Content-Type": "applications/json",
-        },
-      }); // 초기 데이터를 setProductsData로 넣지 않으니 렌더링이 안됨 => set함수 쓸 것
+        headers: { "Content-Type": "applications/json" },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch initial data...");
+
+      const resultData = await response.json();
+      setProductsData(resultData.data || []); // 초기 데이터 설정
+      setIsLoading(false); // 로딩 상태 해제
     };
+
+    fetchInitialData();
   }, [scope]);
 
   useEffect(() => {
-    // trigger.current가 null이 아닌 경우에만 옵저버 설정
     if (trigger.current) {
       const observer = new IntersectionObserver(
-        async (
-          entries: IntersectionObserverEntry[],
-          observer: IntersectionObserver
-        ) => {
+        async (entries) => {
           const element = entries[0];
 
-          // 데이터가 로드 중이지 않고, 트리거가 화면에 보이면 데이터를 더 불러오는 로직
           if (
             element.isIntersecting &&
             !isLoading &&
             !isLastPage &&
             trigger.current
           ) {
-            observer.unobserve(trigger.current); // trigger.current가 null이 아닐 때만 unobserve 호출
             setIsLoading(true);
 
             let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
@@ -68,41 +71,33 @@ const ProductEnrollmentRequestPage: React.FC = () => {
             else if (scope === "false") baseUrl += `/denied`;
 
             const fetchUrl = baseUrl + `?pageNo=${pageNo + 1}`;
-            console.log(fetchUrl);
-            const response = await authFetch(fetchUrl, {
-              method: "GET",
-            });
+            const response = await authFetch(fetchUrl, { method: "GET" });
 
             if (!response.ok) throw new Error("Failed to fetch data...");
 
             const resultData = await response.json();
-            console.log(resultData);
             const newProductList = resultData.data;
 
-            if (newProductList.length !== 0) {
+            if (newProductList.length > 0) {
               setProductsData((prev) => [...prev, ...newProductList]);
               setPageNo((prev) => prev + 1);
             } else {
-              setIsLastPage(true); // 더 이상 데이터가 없으면 마지막 페이지 표시
+              setIsLastPage(true);
             }
-            setIsLoading(false); // 로딩 상태 해제
+
+            setIsLoading(false);
           }
         },
-        {
-          threshold: 1.0, // 100%가 화면에 보일 때 불러옴
-        }
+        { threshold: 1.0 }
       );
 
-      observer.observe(trigger.current); // trigger.current가 null이 아니어야 observe 호출
+      observer.observe(trigger.current);
 
-      // 컴포넌트가 unmount 될 때 옵저버 해제
       return () => {
-        if (trigger.current) {
-          observer.disconnect();
-        }
+        if (trigger.current) observer.disconnect();
       };
     }
-  }, [pageNo, scope, isLoading, isLastPage, productsData]); // pageNo, scope, isLoading 상태 변경에 따라 다시 실행
+  }, [pageNo, scope, isLoading, isLastPage]);
 
   return (
     <>
