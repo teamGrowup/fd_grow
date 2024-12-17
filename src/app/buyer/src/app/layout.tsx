@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { cn } from "@/packages/utils/src/index"
 import "./globals.css";
+import { AuthContext } from "../components/_layout/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
           // "max-w-[600px] mx-auto bg-white min-h-screen flex flex-col relative pb-14"
         )}
       >
+        <AuthContext />
         {children}
       </body>
     </html>

@@ -11,8 +11,17 @@ import {
 // import DaumPostcodeEmbed from 'react-daum-postcode';
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { Address } from "react-daum-postcode";
+import { PhoneAuthcodesRequestDto, PhoneCertificationRequestDTO, SignUpRequestDto } from "@/app/buyer/src/apis/request/auth";
+import { SingUpResponseDto } from "@/app/buyer/src/apis/response/auth";
+import BaseResponse from "@/app/buyer/src/apis/response/base-response.dto";
+import { useRouter } from "next/navigation";
+import { phoneCertificationRequest, phoneValidationCodeRequest, signUpRequest } from "@/app/buyer/src/apis";
+import { Gender, Provider } from "@/app/buyer/src/types/enum";
 
 export default function UserRegistrationForm() {
+  //          function: 라우터 함수          //
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailTimer, setEmailTimer] = useState(180);
@@ -22,7 +31,7 @@ export default function UserRegistrationForm() {
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [address, setAddress] = useState("");
-  const [postcode, setPostcode] = useState("");
+  const [postCode, setPostCode] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -52,12 +61,15 @@ export default function UserRegistrationForm() {
   const [emailError, setEmailError] = useState("");
 
   const [birthday, setBirthday] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState<Gender | string>('');
   const [isAgreeSendEmail, setIsAgreeSendEmail] = useState(false);
   const [isAgreeSendSms, setIsAgreeSendSms] = useState(false);
+  const [isValidEmail, setValidEmail] = useState<boolean>(false);
 
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmailCheck = (email: string) => {
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setValidEmail(validEmail);
+    return validEmail;
   };
 
   const checkPasswordRequirements = (pwd: string) => {
@@ -90,7 +102,7 @@ export default function UserRegistrationForm() {
 
   const handleSendVerificationEmail = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!isValidEmail(email)) {
+    if (!isValidEmailCheck(email)) {
       setEmailError("올바른 이메일 형식이 아닙니다.");
       return;
     }
@@ -99,9 +111,19 @@ export default function UserRegistrationForm() {
     setEmailTimer(180);
     setIsEmailVerified(false);
   };
-
+  //          function: phoneCertificationResponse 처리 함수          //
+  const phoneCertificationResponse = () => {
+    console.log('요청 잘 보냄')
+  }
   const handleSendPhoneVerification = (e: React.MouseEvent) => {
     e.preventDefault();
+    const provider = Provider.EMAIL
+    const requestBody : PhoneCertificationRequestDTO = {
+      phoneNumber, provider
+    }
+    console.log('전화번호 인증 실행');
+    console.log(requestBody);
+    phoneCertificationRequest(requestBody).then(phoneCertificationResponse);
     setShowPhoneVerification(true);
     setPhoneTimer(180);
     setIsPhoneVerified(false);
@@ -120,17 +142,34 @@ export default function UserRegistrationForm() {
     }
   };
 
-  const handlePhoneVerification = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent form submission
-    if (phoneVerificationCode === "5678") {
+  
+  //          function: phoneVerificationResponse 처리 함수          //
+  const phoneVerificationResponse =(response: any) => {
+    if (response?.status === 200) {
       setIsPhoneVerified(true);
-      setShowPhoneVerification(false);
-      setPhoneVerificationError("");
-      // Keep the verified phone number in the input
-      setPhoneNumber(phoneNumber);
+      console.log("인증 성공");
     } else {
-      setPhoneVerificationError("잘못된 인증 코드입니다. 다시 확인해주세요.");
+      setIsPhoneVerified(false);
+      console.error("인증 실패");
     }
+  }
+
+  const handlePhoneVerification = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent form submission
+    const authCode = phoneVerificationCode
+    const requestBody : PhoneAuthcodesRequestDto = {
+      phoneNumber, authCode
+    }
+    phoneValidationCodeRequest(requestBody).then(phoneVerificationResponse)
+    // if (phoneVerificationCode === "5678") {
+    //   setIsPhoneVerified(true);
+    //   setShowPhoneVerification(false);
+    //   setPhoneVerificationError("");
+    //   // Keep the verified phone number in the input
+    //   setPhoneNumber(phoneNumber);
+    // } else {
+    //   setPhoneVerificationError("잘못된 인증 코드입니다. 다시 확인해주세요.");
+    // }
   };
 
   useEffect(() => {
@@ -183,10 +222,10 @@ export default function UserRegistrationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    if (!isEmailVerified) {
-      alert("이메일 인증을 완료해주세요.");
-      return;
-    }
+    // if (!isEmailVerified) {
+    //   alert("이메일 인증을 완료해주세요.");
+    //   return;
+    // }
     
     if (!isPhoneVerified) {
       alert("전화번호 인증을 완료해주세요.");
@@ -201,9 +240,8 @@ export default function UserRegistrationForm() {
       { value: nickname, name: "닉네임" },
       { value: phoneNumber, name: "전화번호" },
       { value: birthday, name: "생년월일" },
-      { value: gender, name: "성별" },
       { value: address, name: "주소" },
-      { value: postcode, name: "우편번호" },
+      { value: postCode, name: "우편번호" },
     ];
 
     const emptyFields = mandatoryFields.filter(field => !field.value.trim());
@@ -213,10 +251,43 @@ export default function UserRegistrationForm() {
       alert(`다음 필수 항목을 입력해주세요: ${emptyFieldNames}`);
       return;
     }
+    
+    console.log(gender)
+    if (!gender) return;
+    const isValidEmail = isPhoneVerified;
+    const formattedBirthday = birthday.replace(/-/g, "");
 
-    // Proceed with form submission
+    const requestBody: SignUpRequestDto = {
+      email, password, nickname, birthday: formattedBirthday, gender, isAgreeSendEmail, isAgreeSendSms, isValidEmail, name, phoneNumber  
+    };
+    console.log(requestBody);
+    signUpRequest(requestBody).then(signUpResponse);
     alert("Form submitted successfully");
   };
+
+  //          function: sign up response 처리 함수          //
+  const signUpResponse = (responseBody: SingUpResponseDto | BaseResponse | null) => {
+    if (!responseBody) {
+        alert('네트워크 이상입니다.');
+        return;
+    }
+    const { code } = responseBody;
+    if (code === 'DE'){
+      
+    }
+    if (code === 'DN'){
+        
+    }
+    if (code === 'DT'){
+        
+    }
+    if (code === 'VF') alert('모든 값을 입력하세요.');
+    if (code === 'DBE') alert('데이터베이스 오류입니다.');
+
+    if (code !== 'SU') return;
+
+    router.push('/signin');
+  }
 
   const handleComplete = (data: Address) => {
     let fullAddress = data.address;
@@ -234,7 +305,7 @@ export default function UserRegistrationForm() {
     }
 
     setAddress(fullAddress);
-    setPostcode(data.zonecode);
+    setPostCode(data.zonecode);
     setIsDialogOpen(false);
   };
 
@@ -266,6 +337,12 @@ export default function UserRegistrationForm() {
         11
       )}`;
     }
+  };
+
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedGender = e.target.value
+    console.log(selectedGender)
+    setGender(selectedGender);
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -444,13 +521,13 @@ export default function UserRegistrationForm() {
             <select
               id="gender"
               value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              onChange={handleGenderChange}
               className="w-full p-2 border rounded text-sm"
               required
             >
               <option value="">선택하세요</option>
-              <option value="MALE">남성</option>
-              <option value="FEMALE">여성</option>
+              <option value={"MALE"}>남성</option>
+              <option value={"FEMALE"}>여성</option>
             </select>
           </div>
         </div>
@@ -483,7 +560,7 @@ export default function UserRegistrationForm() {
             <Input
               type="text"
               placeholder="우편번호"
-              value={postcode}
+              value={postCode}
               readOnly
               className="w-1/4"
             />

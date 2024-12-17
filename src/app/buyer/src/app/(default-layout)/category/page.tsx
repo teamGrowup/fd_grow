@@ -6,7 +6,7 @@ const Category = () => {
   const sections: string[] = [
     "상의", "아우터", "바지", "원피스/스커트", "신발",
     "가방", "패션 소품", "언더웨어", "뷰티",
-    "스포츠/레저", "라이프", "1", "2", "3", "4", "5",
+    "스포츠/레저", "라이프", "테스트1", "2", "3", "4", "5",
     "6", "7", "8", "9", "10", "11", "12", "13"
   ];
 
@@ -108,7 +108,7 @@ const Category = () => {
             ref={(el) => {
               sectionRefs.current[index] = el; // 섹션의 ref 저장
             }}
-            className="scroll-mt-12 scroll-mb-16 h-screen bg-white"
+            className="scroll-mt-12 scroll-mb-16 h-[900px] bg-white"
           >
             <div className="w-full p-4 flex items-center justify-between cursor-pointer">
               <p className="text-lg font-semibold">{section}</p>

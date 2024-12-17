@@ -17,17 +17,112 @@ import ProductCard from "../../../components/_common/ProcuctCard";
 import { cn } from "@/lib/utils";
 import { DragSlider } from "../../../components/_common/DragSlider";
 import { Suspense, useEffect, useRef, useState } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Swiper as SwiperType } from "swiper/types";
+import { Product } from "../../../types/interface";
 
 export default function Component() {
+  const products: Product[] = [
+    {
+      productIdx: 1,
+      name: "울리치 발마칸 오버 코트",
+      brand: "비슬로우",
+      price: 254440,
+      thumbnailPhotoUrl: "/product_test.jpg",
+      likes: 300,
+      averageRating: 4.5,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 2,
+      name: "오버핏 슬로우",
+      brand: "그로우",
+      price: 34200,
+      thumbnailPhotoUrl: "/t1.jpg",
+      likes: 250,
+      averageRating: 4.3,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 3,
+      name: "니트 조끼",
+      brand: "그로우",
+      price: 98500,
+      thumbnailPhotoUrl: "/t2.jpg",
+      likes: 280,
+      averageRating: 4.6,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 4,
+      name: "베이지 목도리",
+      brand: "그로우",
+      price: 174800,
+      thumbnailPhotoUrl: "/t3.jpg",
+      likes: 320,
+      averageRating: 4.7,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 5,
+      name: "목걸이",
+      brand: "그로우",
+      price: 214900,
+      thumbnailPhotoUrl: "/t4.jpg",
+      likes: 310,
+      averageRating: 4.4,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 6,
+      name: "목도리",
+      brand: "그로우",
+      price: 184300,
+      thumbnailPhotoUrl: "/t5.jpg",
+      likes: 270,
+      averageRating: 4.5,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 7,
+      name: "검정 목도리",
+      brand: "그로우",
+      price: 154600,
+      thumbnailPhotoUrl: "/t6.jpg",
+      likes: 290,
+      averageRating: 4.3,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 8,
+      name: "트레이닝 벌룬 팬츠",
+      brand: "그로우",
+      price: 324500,
+      thumbnailPhotoUrl: "/t7.jpg",
+      likes: 350,
+      averageRating: 4.8,
+      description: '',
+      likesOnMe: false
+    },
+    {
+      productIdx: 9,
+      name: "캐주얼 코튼 팬츠",
+      brand: "그로우",
+      price: 284700,
+      thumbnailPhotoUrl: "/t9.jpg",
+      likes: 330,
+      averageRating: 4.6,
+      description: '',
+      likesOnMe: false
+    }
+  ];
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const upRef = useRef(null);
   const downRef = useRef(null);
@@ -44,7 +139,7 @@ export default function Component() {
 
   // if (!accessToken) return null;
   
- 
+  
   
   return (
     <div className="bg-[#F5F5F5] relative w-full">
@@ -62,24 +157,7 @@ export default function Component() {
             }}
             className="w-full" // 원하는 높이와 폭 설정
           >
-            <SwiperSlide>
-              <div className="relative aspect-[8/10]">
-                <Image
-                  src={event_image2}
-                  alt="Event Image 1"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                />
-                <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-b from-[rgb(0,0,0,0)] to-[rgba(0,0,0)] pointer-events-none"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h2 className="text-lg font-bold">맨투맨 & 니트 <br />최대 57% 할인</h2>
-                  <p className="text-sm">그로우 에디션</p>
-                </div>
-                <div className="absolute bottom-4 right-4 text-white text-sm">
-                  6 / 35
-                </div>
-              </div>
-            </SwiperSlide>
+            
             <SwiperSlide>
               <div className="relative aspect-[8/10]">
                 <Image
@@ -116,7 +194,24 @@ export default function Component() {
                 </div>
               </div>
             </SwiperSlide>
-            
+            <SwiperSlide>
+              <div className="relative aspect-[8/10]">
+                <Image
+                  src={event_image2}
+                  alt="Event Image 1"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-b from-[rgb(0,0,0,0)] to-[rgba(0,0,0)] pointer-events-none"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h2 className="text-lg font-bold">맨투맨 & 니트 <br />최대 57% 할인</h2>
+                  <p className="text-sm">그로우 에디션</p>
+                </div>
+                <div className="absolute bottom-4 right-4 text-white text-sm">
+                  6 / 35
+                </div>
+              </div>
+            </SwiperSlide>
           </Swiper>
         </div>
         
@@ -153,17 +248,32 @@ export default function Component() {
         
         <section className="flex flex-col w-full  bg-white mb-4">
           <p className="text-lg font-semibold px-4 py-2">인기 상품</p>
+          {/* <div className="grid grid-cols-12">
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+            <ProductCard classname={cn('col-span-4')}/>
+          </div> */}
           <div className="grid grid-cols-12">
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-            <ProductCard classname={cn('col-span-4')}/>
-          </div>
+          {products.map((product, index) => (
+            <ProductCard 
+              key={index}
+              productIdx={product.productIdx}
+              classname={cn('col-span-4')} 
+              name={product.name} 
+              brand={product.brand} 
+              price={product.price} 
+              thumbnailPhotoUrl={product.thumbnailPhotoUrl} 
+              likes={product.likes} 
+              averageRating={product.averageRating} 
+            />
+          ))}
+        </div>
         </section>
         {/* <div className="grid grid-cols-3 gap-2 px-4 mb-4 bg-white py-6">
           <Button variant="outline" className="text-xs py-1 px-2 h-auto ">추워 박스 세일</Button>

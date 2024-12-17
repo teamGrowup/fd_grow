@@ -1,6 +1,6 @@
 'use client';
 import { useDraggable } from "react-use-draggable-scroll";
-import { MouseEvent, useRef, useState } from "react";
+import { useRef } from "react";
 
 export const DragSlider = () => {
   const ref =
@@ -26,7 +26,7 @@ export const DragSlider = () => {
           <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">패션 소품</div>
         </div>
         <div className="flex justify-start mb-2 gap-4 mr-4">
-          <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800" onClick={() => console.log('클릭됨')}>언더웨어</div>
+          <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">언더웨어</div>
           <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">뷰티</div>
           <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">스포츠/레저</div>
           <div className="bg-[#262626] items-center justify-center px-4 py-2 inline-flex rounded-sm border border-gray-800">라이프</div>

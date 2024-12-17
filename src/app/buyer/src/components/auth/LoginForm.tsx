@@ -1,21 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input,Button } from "@/packages/ui/src/index";
-import { useAuthApi } from '../../apis/auth';
+// import { useAuthApi } from '../../apis/auth';
 import { useAuthStore } from '../../lib/store';
+import { useCookies } from "react-cookie";
+import { SignInResponseDto } from '../../apis/response/auth';
+import BaseResponse from '../../apis/response/base-response.dto';
+import { SignInRequestDto } from '../../apis/request/auth';
+import { signInEmailRequest } from '../../apis';
 
 export default function LoginForm() {
+  //          function: 라우터 함수          //
   const router = useRouter();
-  const { login } = useAuthApi();
-  const { setAccessToken } = useAuthStore();
+  //          state: 쿠키 상태          //
+  const [cookies, setCookies] = useCookies();
 
+  // const { login } = useAuthApi();
+  // const { setAccessToken } = useAuthStore();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
+  //          state: 이메일 상태          //
+  const [email, setEmail] = useState<string>('');
+  //          state: 패스워드 상태          //
+  const [password, setPassword] = useState<string>('');
+  //          state: 이메일 에러 상태          //
+  const [emailError, setEmailError] = useState<string>('');
+  //          state: 패스워드 에러 상태          //
   const [passwordError, setPasswordError] = useState('');
+  //          state: 로그인 유효 상태          //
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
@@ -32,7 +45,7 @@ export default function LoginForm() {
   //   }
   // };
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email: string) => { 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim()) {
       setEmailError('이메일을 입력해주세요.');
@@ -59,16 +72,17 @@ export default function LoginForm() {
     }
   };
 
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
-    validateEmail(newEmail);
+  //          event handler: 이메일 변경 이벤트 처리          //  
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setEmail(value);
+    validateEmail(value);
   };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    validatePassword(newPassword);
+  //          event handler: 비밀번호 변경 이벤트 처리          //
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPassword(value);
+    validatePassword(value);
   };
 
 
@@ -78,14 +92,18 @@ export default function LoginForm() {
     router.push('/signup/client');
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
 
+  
+  //          event handler: 로그인 버튼 클릭 이벤트 처리          //
+  const handleSubmit = () => {
+    console.log('submit 실행')
     console.log('isFormValid:', isFormValid);
     if (!isFormValid) return;
 
-    alert('로그인 중...');
-
+    const requestBody: SignInRequestDto = { email, password };
+    // signInEmailRequest(requestBody).then(signInResponse);
+    console.log(requestBody);
+    signInEmailRequest(requestBody).then(signInResponse);
     // try {
     //   const data = await login(email, password);
     //   setAccessToken(data.data.accessToken);
@@ -95,6 +113,27 @@ export default function LoginForm() {
     //   // Handle login error (e.g., show error message)
     // }
   };
+  //          function: sign in response 처리 함수          //
+  const signInResponse = (responseBody: SignInResponseDto | BaseResponse | null) => {
+    console.log('로그인 요청 완료됨')
+    console.log(responseBody)
+    if (!responseBody){
+        alert('네트워크 이상입니다');
+        return;
+    }
+    const { code } = responseBody;
+    if (code === 'DBE') alert('데이터베이스 오류입니다.');
+    if (code === 'SF' || code === 'VF') alert('TODO')
+    
+
+    const { data } = responseBody as SignInResponseDto;
+    const now = new Date().getTime();
+    const expires = new Date(now + 3600 * 1000)
+    console.log('만료 시간 설정')
+    if(!data) return;
+    setCookies('accessToken', data?.accessToken, { expires, path: "/" });
+    router.push('/');
+  }
 
 
 
@@ -131,6 +170,7 @@ export default function LoginForm() {
         className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full py-2 h-[47px] translate-y-3"
         type="button"
         disabled={!isFormValid}
+        onClick={handleSubmit}
       >
         로그인
       </Button>

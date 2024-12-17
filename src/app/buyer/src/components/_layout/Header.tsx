@@ -3,7 +3,6 @@ import { ChevronLeft, Home, Search, ShoppingBag } from "lucide-react";
 import Logo from '../../public/GrowUp.svg';
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useAuthStore } from "../../lib/store";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { BRAND_PATH, CART_PATH, CATEGORY_PATH, FAVORITE_PATH, MAIN_PATH, PRODUCT_PATH, SEARCH_KEYWORD_PATH, SEARCH_PATH, SIGNIN_PATH, SIGNUP_PATH } from "../../constant";
 import { cn } from "@/packages/utils/src";
@@ -15,8 +14,7 @@ export default function Header(){
   const router = useRouter();
   //          function: usePathname 함수          //
   const pathname = usePathname();
-  //          state: Token 상태          //
-  const {accessToken, setAccessToken, logout} = useAuthStore();
+  
   //          state: 메인 페이지 상태          //
   // const [isMainPage, setMainPage] = useState<boolean>(false);
   const isMainPage = pathname === MAIN_PATH();
@@ -83,7 +81,7 @@ export default function Header(){
     //          render: 검색 버튼 컴포넌트 렌더링          //
     return(
       <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
-        <div className="flex items-center bg-white rounded-full  border-gray-400  px-3 py-1 text-gray-900">
+        <div className="flex items-center bg-[#f5f5f5] rounded-full  border-gray-400  px-3 py-1 text-gray-900">
           <input type="text" className="block mr-4 border-none bg-none w-full focus:outline-none text-sm  bg-inherit" placeholder="검색어를 입력하세요" onChange={onSearchWordChangeHandler} onKeyDown={onSearchWordKeyDownHandler}/>
           <div ref={searchButtonRef} className="cursor-pointer" onClick={onSearchButtonClickHandler}>
             <Search  className="w-6 h-6 text-gray-400" />
@@ -95,7 +93,7 @@ export default function Header(){
   
   //          render: Header 컴포넌트 렌더링          //
   return(
-    <header className={cn("flex w-full min-h-12 z-30", (isMainPage || isSigninPage || isSignupPage) ? "absolute bg-[#ffffff00] text-white" : "bg-[#f5f5f5] text-gray-500 sticky top-0 ", isMainPage && "mix-blend-difference border-b-[0.5px] border-[#7d7d7d]")}>
+    <header className={cn("flex w-full min-h-12 z-30", (isMainPage || isSigninPage || isSignupPage) ? "absolute bg-[#ffffff00] text-white" : "bg-[#ffffff] text-gray-500 sticky top-0 ", isMainPage && "mix-blend-difference border-b-[0.5px] border-[#7d7d7d]")}>
         <div className="flex items-center justify-between px-4 py-2 w-full relative">
           <div className="flex items-center gap-4 mr-4 ">
             {isMainPage ?
@@ -124,7 +122,7 @@ export default function Header(){
           }
 
           <div className="flex items-center">
-            {(isProductDeatilPage) && <Home className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/')}/>}
+            {(isProductDeatilPage || isCartPage) && <Home className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/')}/>}
             {( !isSearchResultPage && !isSigninPage && !isSignupPage) && <Search className="w-6 h-6  cursor-pointer ml-4" onClick={() => router.push('/search')} />}
             {(!isSearchPage && !isCartPage && !isSigninPage && !isSignupPage) && <ShoppingBag className="w-6 h-6  cursor-pointer ml-4" onClick={onCartClickHandler} />}
           </div>

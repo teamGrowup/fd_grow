@@ -41,7 +41,7 @@ const TabBar = () => {
 
   if(isSearchPage) return;
   return(
-    <div className="fixed bottom-0 w-full border-t max-w-[600px] bg-white">
+    <div className="fixed bottom-0 w-full border-t max-w-[600px] bg-white z-50">
         <div className="flex justify-between px-2 w-full">
           <Button variant="ghost" size="icon" className="flex flex-col h-[56px] items-center text-xs basis-[20%]" onClick={categoryClickHandler}>
             <Search className="w-6 h-6" />

@@ -5,15 +5,12 @@ import { Instagram, Music, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CATEGORY_PATH, MAIN_PATH, SEARCH_PATH } from "../../constant";
-import { useAuthStore } from "../../lib/store";
 
 const Footer = () => {
   //          function: useRouter 함수          //
   const router = useRouter();
   //          function: usePathname 함수          //
   const pathname = usePathname();
-  //          state: Token 상태          //
-  const {accessToken, setAccessToken, logout} = useAuthStore();
   //          state: 메인 페이지 상태          //
   // const [isMainPage, setMainPage] = useState<boolean>(false);
   const isMainPage = pathname === MAIN_PATH();
