@@ -33,10 +33,12 @@
 
 import { useAuthStore } from '../lib/store';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export const useAuthenticatedFetch = () => {
   const accessToken = useAuthStore(state => state.accessToken);
   // console.log(accessToken + '있어요!!')
+  const router = useRouter();
 
   const authFetch = async (url: string, options: RequestInit = {}) => {
     const headers = new Headers(options.headers);
@@ -46,6 +48,7 @@ export const useAuthenticatedFetch = () => {
 
     if (response.status === 401) {
       useAuthStore.getState().logout();
+      router.push('/');
       throw new Error('Token expired');
     }
 
