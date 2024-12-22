@@ -15,14 +15,13 @@ import { useAuthStore } from "../lib/store";
 
 const LogoBar: React.FC = () => {
   const router = useRouter();
-  const { accessToken, setAccessToken, setRefreshToken, logout } =
-    useAuthStore();
+  const { accessToken, setAccessToken, setRefreshToken } = useAuthStore();
+  const clearUseAuthStorage = useAuthStore.persist.clearStorage;
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    logout();
-    localStorage.removeItem("auth-storage");
+    setAccessToken(null);
+    setRefreshToken(null);
+    clearUseAuthStorage();
     router.push("/");
   };
 
