@@ -1,17 +1,15 @@
 import { useAuthStore } from '../lib/store';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export const useAuthenticatedFetch = () => {
-  const { setAccessToken, setRefreshToken, accessToken } = useAuthStore();
-  const clearUseAuthStorage = useAuthStore.persist.clearStorage;
+  const { accessToken, clearStorage } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    clearUseAuthStorage();
-  }
+    // setAccessToken(null);
+    // setRefreshToken(null);
+    clearStorage(); // 상태와 로컬스토리지 초기화
+  };
 
   const authFetch = async (url: string, options: RequestInit = {}) => {
     const headers = new Headers(options.headers);

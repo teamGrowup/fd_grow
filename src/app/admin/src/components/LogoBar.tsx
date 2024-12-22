@@ -2,65 +2,43 @@
 
 import React from "react";
 import Image from "next/image";
-import Logo from "@/app/admin/src/assets/smallLogo.png";
+import Logo from "@/app/admin/src/assets/smallLogo.webp";
 
 import { useRouter } from "next/navigation";
-
-import { ChartNoAxesCombined } from "lucide-react";
-import { PackageSearch } from "lucide-react";
-import { Store } from "lucide-react";
-import { Monitor } from "lucide-react";
 import { MdLogout } from "react-icons/md";
 import { useAuthStore } from "../lib/store";
 
 const LogoBar: React.FC = () => {
   const router = useRouter();
-  const { accessToken, setAccessToken, setRefreshToken } = useAuthStore();
-  const clearUseAuthStorage = useAuthStore.persist.clearStorage;
+  const { accessToken, setAccessToken, setRefreshToken, clearStorage } =
+    useAuthStore();
 
   const handleLogout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    clearUseAuthStorage();
+    // setAccessToken(null);
+    // setRefreshToken(null);
+    clearStorage();
     router.push("/");
   };
-
   return (
-    <div className="bg-black py-12 sticky top-0 z-10 w-full flex">
-      <Image
-        src={Logo}
-        alt="logo"
-        className="absolute w-1/5 h-full top-0 left-0 cursor-pointer translate-x-6"
-        onClick={() => router.push("/main")}
-      />
-      <menu className="flex justify-center items-center gap-6 absolute right-6 -translate-y-1/2">
-        <li
-          className="text-white cursor-pointer"
-          onClick={() => router.push("/mallStatus")}
-        >
-          <ChartNoAxesCombined className="w-8 h-8" />
-        </li>
-        <li
-          className="text-white cursor-pointer"
-          onClick={() => router.push("/product")}
-        >
-          <PackageSearch className="w-8 h-8" />
-        </li>
-        <li
-          className="text-white cursor-pointer"
-          onClick={() => router.push("/brand")}
-        >
-          <Store className="w-8 h-8" />
-        </li>
-        <li
-          className="text-white cursor-pointer"
-          onClick={() => router.push("/review")}
-        >
-          <Monitor className="w-8 h-8" />
-        </li>
+    <div className="bg-black py-3 w-full flex items-center justify-between px-6">
+      {/* 로고 */}
+      <div className="flex items-center">
+        <Image
+          src={Logo}
+          alt="logo"
+          width={90}
+          height={90}
+          priority // 자동 프리로드
+          className="cursor-pointer"
+          onClick={() => router.push("/main")}
+        />
+      </div>
+
+      {/* 메뉴 아이콘 */}
+      <menu className="flex items-center gap-6">
         {accessToken && (
-          <li className="text-white cursor-pointer" onClick={handleLogout}>
-            <MdLogout className="w-8 h-8" />
+          <li className="text-white cursor-pointer mr-4" onClick={handleLogout}>
+            <MdLogout className="w-10 h-10" />
           </li>
         )}
       </menu>
@@ -68,4 +46,4 @@ const LogoBar: React.FC = () => {
   );
 };
 
-export default LogoBar;
+export default React.memo(LogoBar);

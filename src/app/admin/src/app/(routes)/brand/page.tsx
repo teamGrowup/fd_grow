@@ -34,6 +34,10 @@ const BrandEnrollmentRequestPage: React.FC = () => {
   //   };
   // }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {};
+  }, []);
+
   return (
     <>
       <LogoBar />
@@ -44,7 +48,7 @@ const BrandEnrollmentRequestPage: React.FC = () => {
           </div>
         ) : (
           <>
-            <div className="flex-grow grid grid-cols-2 mt-8 gap-4">
+            {/* <div className="flex-grow grid grid-cols-2 mt-8 gap-4">
               {conditionalItems().map((item) => (
                 <MultiItem
                   key={item.brandId}
@@ -53,7 +57,7 @@ const BrandEnrollmentRequestPage: React.FC = () => {
                   isApproved={item.authorityStatus}
                 />
               ))}
-            </div>
+            </div> */}
             <FooterBar category="brand" scope={scope} setScope={setScope} />
           </>
         )}
