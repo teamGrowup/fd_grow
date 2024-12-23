@@ -14,8 +14,8 @@ const LogoBar: React.FC = () => {
     useAuthStore();
 
   const handleLogout = () => {
-    // setAccessToken(null);
-    // setRefreshToken(null);
+    setAccessToken(null);
+    setRefreshToken(null);
     clearStorage();
     router.push("/");
   };

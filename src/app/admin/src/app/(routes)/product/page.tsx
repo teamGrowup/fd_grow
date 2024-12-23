@@ -19,16 +19,30 @@ const ProductEnrollmentRequestPage: React.FC = () => {
   const [isLastPage, setIsLastPage] = useState<boolean>(false);
   const [productsData, setProductsData] = useState<productsDataType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRehydrated, setIsRehydrated] = useState<boolean>(false); // 상태 복원 여부
   const { authFetch } = useAuthenticatedFetch();
   const accessToken = useAuthStore((state) => state.accessToken);
-  const trigger = useRef<HTMLDivElement | null>(null); // trigger ref 타입을 HTMLDivElement | null로 명시
+  const trigger = useRef<HTMLDivElement | null>(null);
 
+  // zustand 상태 복원 여부 확인
   useEffect(() => {
-    // scope 변경 시 페이지 번호 초기화 및 초기 데이터 로드
+    const checkRehydration = async () => {
+      const storedState = localStorage.getItem("auth-storage");
+      if (storedState) {
+        setIsRehydrated(true);
+      }
+    };
+    checkRehydration();
+  }, []);
+
+  // 초기 데이터 로드
+  useEffect(() => {
+    if (!isRehydrated || !accessToken) return; // 상태 복원이 완료되지 않으면 요청 X
+
     const fetchInitialData = async () => {
-      setPageNo(0); // 페이지 번호 초기화
-      setIsLastPage(false); // 마지막 페이지 상태 초기화
-      setIsLoading(true); // 로딩 상태 설정
+      setPageNo(0);
+      setIsLastPage(false);
+      setIsLoading(true);
 
       let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
       if (scope === "true") baseUrl += `/approved`;
@@ -38,66 +52,66 @@ const ProductEnrollmentRequestPage: React.FC = () => {
       const fetchUrl = baseUrl + `?pageNo=0`;
       const response = await authFetch(fetchUrl, {
         method: "GET",
-        headers: { "Content-Type": "applications/json" },
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) throw new Error("Failed to fetch initial data...");
 
       const resultData = await response.json();
-      setProductsData(resultData.data || []); // 초기 데이터 설정
-      setIsLoading(false); // 로딩 상태 해제
+      setProductsData(resultData.data || []);
+      setIsLoading(false);
     };
 
     fetchInitialData();
-  }, [scope]);
+  }, [isRehydrated, scope, accessToken]);
 
+  // 무한 스크롤 데이터 로드
   useEffect(() => {
-    if (trigger.current) {
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          const element = entries[0];
+    if (!isRehydrated || !accessToken || !trigger.current) return;
 
-          if (
-            element.isIntersecting &&
-            !isLoading &&
-            !isLastPage &&
-            trigger.current
-          ) {
-            setIsLoading(true);
+    const observer = new IntersectionObserver(
+      async (entries) => {
+        const element = entries[0];
+        if (
+          element.isIntersecting &&
+          !isLoading &&
+          !isLastPage &&
+          trigger.current
+        ) {
+          setIsLoading(true);
 
-            let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
-            if (scope === "true") baseUrl += `/approved`;
-            else if (scope === "wait") baseUrl += `/pending`;
-            else if (scope === "false") baseUrl += `/denied`;
+          let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
+          if (scope === "true") baseUrl += `/approved`;
+          else if (scope === "wait") baseUrl += `/pending`;
+          else if (scope === "false") baseUrl += `/denied`;
 
-            const fetchUrl = baseUrl + `?pageNo=${pageNo + 1}`;
-            const response = await authFetch(fetchUrl, { method: "GET" });
+          const fetchUrl = baseUrl + `?pageNo=${pageNo + 1}`;
+          const response = await authFetch(fetchUrl, { method: "GET" });
 
-            if (!response.ok) throw new Error("Failed to fetch data...");
+          if (!response.ok) throw new Error("Failed to fetch data...");
 
-            const resultData = await response.json();
-            const newProductList = resultData.data;
+          const resultData = await response.json();
+          const newProductList = resultData.data;
 
-            if (newProductList.length > 0) {
-              setProductsData((prev) => [...prev, ...newProductList]);
-              setPageNo((prev) => prev + 1);
-            } else {
-              setIsLastPage(true);
-            }
-
-            setIsLoading(false);
+          if (newProductList.length > 0) {
+            setProductsData((prev) => [...prev, ...newProductList]);
+            setPageNo((prev) => prev + 1);
+          } else {
+            setIsLastPage(true);
           }
-        },
-        { threshold: 1.0 }
-      );
 
-      observer.observe(trigger.current);
+          setIsLoading(false);
+        }
+      },
+      { threshold: 1.0 }
+    );
 
-      return () => {
-        if (trigger.current) observer.disconnect();
-      };
-    }
-  }, [pageNo, scope, isLoading, isLastPage]);
+    observer.observe(trigger.current);
+
+    return () => {
+      if (trigger.current) observer.disconnect();
+    };
+  }, [isRehydrated, accessToken, pageNo, scope, isLoading, isLastPage]);
 
   return (
     <>
