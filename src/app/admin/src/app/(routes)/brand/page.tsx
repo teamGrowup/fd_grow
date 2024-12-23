@@ -46,10 +46,9 @@ const BrandEnrollmentRequestPage: React.FC = () => {
       let baseUrl = `http://taegnues.store:12324/admins/brand-requests?authorityStatus`;
       if (scope === "true") baseUrl += "=APPROVED";
       else if (scope === "wait") baseUrl += "=PENDING";
-      else if (scope === "true") baseUrl += "=DENIED";
+      else if (scope === "false") baseUrl += "=DENIED";
 
       const fetchUrl = baseUrl + `&pageNo=0`;
-      console.log(fetchUrl);
 
       const response = await authFetch(fetchUrl, {
         method: "GET",
@@ -63,7 +62,6 @@ const BrandEnrollmentRequestPage: React.FC = () => {
       }
 
       const resultData = await response.json();
-      console.log(resultData);
       setBrandsData(resultData.data || []);
       setIsLoading(false);
     };

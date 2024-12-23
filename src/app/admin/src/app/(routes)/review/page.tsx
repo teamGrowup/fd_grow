@@ -4,42 +4,69 @@ import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../lib/store";
+import { useAuthenticatedFetch } from "../../../hooks/useAuthenticatedFetch";
 
 import ReviewBox from "../../../components/ReviewBox";
 
 import LogoBar from "../../../components/LogoBar";
 
 interface ReviewData {
-  profileImg: string;
-  productImg: string;
-  review: string;
+  reviewId: number;
+  author: string;
+  content: string;
+  rating: number;
+  likeCount: number;
+  reviewImageDTO: {
+    reviewImageId: number;
+    originalImageName: string;
+    path: string;
+  };
+  productId: number;
+  productName: string;
 }
 
 const ReviewMonitoringPage: React.FC = () => {
-  const router = useRouter();
+  const { authFetch } = useAuthenticatedFetch();
   const { accessToken } = useAuthStore();
-  const [Reviewdata, setReviewData] = useState<ReviewData[] | null>(null);
+  const [isReHydrated, setIsRehydrated] = useState<boolean>(false);
+  const [reviewData, setReviewData] = useState<ReviewData[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const checkRehydration = async () => {
+      const storedState = localStorage.getItem("auth-storage");
+      if (storedState) {
+        setIsRehydrated(true);
+      }
+    };
+    checkRehydration();
+  }, []);
+
+  useEffect(() => {
+    if (!isReHydrated || !accessToken) {
+      return;
+    }
     const fetchReviews = async () => {
       try {
-        const fetchResponse = await fetch("http://backendApi/admins/reviews", {
-          headers: {
-            "Content-Type": "application/json",
-            Authentication: `bearer ${accessToken}`,
-          },
-          method: "GET",
-        });
+        setLoading(true);
+        const fetchResponse = await authFetch(
+          "http://taegnues.store:12324/admins/reviews",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "GET",
+          }
+        );
 
         if (!fetchResponse.ok) {
           throw new Error("Fail to fetch data...");
         }
 
-        const data = await fetchResponse.json();
-
-        setReviewData(data);
+        const resultData = await fetchResponse.json();
+        console.log(resultData);
+        setReviewData(resultData.data);
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -47,20 +74,26 @@ const ReviewMonitoringPage: React.FC = () => {
       }
     };
     fetchReviews();
-  }, [accessToken]);
+  }, [isReHydrated, accessToken]);
 
   return (
     <>
       <LogoBar />
       <div className="flex flex-col min-h-screen">
         <div className="flex flex-col flex-grow gap-3 place-items-center">
-          <ReviewBox id="1" />
-          <ReviewBox id="2" />
-          <ReviewBox id="3" />
-          <ReviewBox id="4" />
-          <ReviewBox id="5" />
-          <ReviewBox id="6" />
-          <ReviewBox id="7" />
+          {reviewData?.map((review, index) => (
+            <ReviewBox
+              author={review.author}
+              content={review.content}
+              imageName={review.reviewImageDTO.originalImageName}
+              imagePath={review.reviewImageDTO.path}
+              likeCount={review.likeCount}
+              productName={review.productName}
+              rating={review.rating}
+              reviewId={review.reviewId}
+              key={review.reviewId}
+            />
+          ))}
         </div>
       </div>
     </>
