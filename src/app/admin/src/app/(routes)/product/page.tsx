@@ -1,94 +1,148 @@
-'use client';
+"use client";
 
-import { Button } from "@/packages/ui/src/index";
-import Image from "next/image";
-import Logo from "@/app/admin/src/assets/smallLogo.png";
+import LogoBar from "../../../components/LogoBar";
+import FooterBar from "../../../components/FooterBar";
+import MultiItem from "../../../components/MultiItem";
+import { useEffect, useRef, useState } from "react";
+import { useAuthenticatedFetch } from "../../../hooks/useAuthenticatedFetch";
+import { useAuthStore } from "../../../lib/store";
 
-import { useRouter } from "next/navigation";
+interface productsDataType {
+  productId: number;
+  productName: string;
+  authorityStatus: string;
+}
 
 const ProductEnrollmentRequestPage: React.FC = () => {
-  const router = useRouter();
+  const [scope, setScope] = useState<string>("all");
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
+  const [productsData, setProductsData] = useState<productsDataType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRehydrated, setIsRehydrated] = useState<boolean>(false); // 상태 복원 여부
+  const { authFetch } = useAuthenticatedFetch();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const trigger = useRef<HTMLDivElement | null>(null);
+
+  // zustand 상태 복원 여부 확인
+  useEffect(() => {
+    const checkRehydration = async () => {
+      const storedState = localStorage.getItem("auth-storage");
+      if (storedState) {
+        setIsRehydrated(true);
+      }
+    };
+    checkRehydration();
+  }, []);
+
+  // 초기 데이터 로드
+  useEffect(() => {
+    if (!isRehydrated || !accessToken) return; // 상태 복원이 완료되지 않으면 요청 X
+
+    const fetchInitialData = async () => {
+      setPageNo(0);
+      setIsLastPage(false);
+      setIsLoading(true);
+
+      let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
+      if (scope === "true") baseUrl += `/approved`;
+      else if (scope === "wait") baseUrl += `/pending`;
+      else if (scope === "false") baseUrl += `/denied`;
+
+      const fetchUrl = baseUrl + `?pageNo=0`;
+      const response = await authFetch(fetchUrl, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch initial data...");
+
+      const resultData = await response.json();
+      setProductsData(resultData.data || []);
+      setIsLoading(false);
+    };
+
+    fetchInitialData();
+  }, [isRehydrated, scope, accessToken]);
+
+  // 무한 스크롤 데이터 로드
+  useEffect(() => {
+    if (!isRehydrated || !accessToken || !trigger.current) return;
+
+    const observer = new IntersectionObserver(
+      async (entries) => {
+        const element = entries[0];
+        if (
+          element.isIntersecting &&
+          !isLoading &&
+          !isLastPage &&
+          trigger.current
+        ) {
+          setIsLoading(true);
+
+          let baseUrl = `http://taegnues.store:12324/admins/product-requests`;
+          if (scope === "true") baseUrl += `/approved`;
+          else if (scope === "wait") baseUrl += `/pending`;
+          else if (scope === "false") baseUrl += `/denied`;
+
+          const fetchUrl = baseUrl + `?pageNo=${pageNo + 1}`;
+          const response = await authFetch(fetchUrl, { method: "GET" });
+
+          if (!response.ok) throw new Error("Failed to fetch data...");
+
+          const resultData = await response.json();
+          const newProductList = resultData.data;
+
+          if (newProductList.length > 0) {
+            setProductsData((prev) => [...prev, ...newProductList]);
+            setPageNo((prev) => prev + 1);
+          } else {
+            setIsLastPage(true);
+          }
+
+          setIsLoading(false);
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(trigger.current);
+
+    return () => {
+      if (trigger.current) observer.disconnect();
+    };
+  }, [isRehydrated, accessToken, pageNo, scope, isLoading, isLastPage]);
 
   return (
     <>
-      <div className="bg-black py-12 relative w-full">
-        <Image
-          src={Logo}
-          alt="logo"
-          className="absolute w-1/5 h-full top-0 left-0 cursor-pointer translate-x-6"
-          onClick={() => router.push('/main')}
-        />
+      <LogoBar />
+      <div className="flex flex-col min-h-screen">
+        {isLoading && productsData.length === 0 ? (
+          <div className="flex justify-center items-center h-full">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <>
+            <div className="flex-grow grid grid-cols-2 mt-8 gap-4">
+              {productsData.map((item, index) => (
+                <MultiItem
+                  key={item.productId}
+                  category="product"
+                  id={item.productId}
+                  isApproved={item.authorityStatus}
+                  ref={index === productsData.length - 1 ? trigger : null}
+                />
+              ))}
+            </div>
+            {isLoading && (
+              <div className="flex justify-center items-center mt-4">
+                <p>Loading...</p>
+              </div>
+            )}
+            <FooterBar category="product" scope={scope} setScope={setScope} />
+          </>
+        )}
       </div>
-      <div className="grid grid-cols-2 place-items-center translate-y-12">
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 1
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 2
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 3
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-green-400 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 허가됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 4
-          </p>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-yellow-700 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 대기 중
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 5
-          </p>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 left-2 w-[50px] h-[28px]">
-            허가
-          </Button>
-          <Button className="absolute bg-blue-500 text-white rounded-full bottom-2 right-2 w-[50px] h-[28px]">
-            거부
-          </Button>
-        </div>
-        <div className="w-[140px] h-[140px] bg-gray-300 relative mb-10">
-          <div className="w-[68px] h-[48px] text-sm absolute z-10 bg-red-600 rounded-full text-white -top-5 -left-5 text-center py-1">
-            등록
-            <br /> 거부됨
-          </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-center">
-            상품 6
-          </p>
-        </div>
-      </div>
-      <footer className="border-t border-gray-300 mt-6">
-        <ul className="flex justify-center items-center gap-10 py-2 translate-y-6">
-          <li className="text-sm text-blue-400 font-bold">전체 상품</li>
-          <li className="text-sm text-gray-300">허가 상품</li>
-          <li className="text-sm text-gray-300">허가 대기 상품</li>
-          <li className="text-sm text-gray-300">미허가 상품</li>
-        </ul>
-      </footer>
     </>
   );
 };
